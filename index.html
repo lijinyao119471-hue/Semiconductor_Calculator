@@ -1,291 +1,848 @@
 <!DOCTYPE html>
-<!-- saved from url=(0089)https://c603bfd6-1f57-404a-baaf-37d9df2404bc.dev.coze.site/mos-resistance-calculator.html -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./MOS器件封装电阻计算器_files/index.js.下载"></script><script src="./MOS器件封装电阻计算器_files/index(1).js.下载"></script><script src="./MOS器件封装电阻计算器_files/index.min.js.下载"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MOS器件封装电阻计算器">
-    <title>MOS器件封装电阻计算器</title>
-    <style>
-*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html,:host{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.absolute{position:absolute}.relative{position:relative}.right-4{right:1rem}.top-1\/2{top:50%}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-5{height:1.25rem}.max-h-48{max-height:12rem}.min-h-screen{min-height:100vh}.w-5{width:1.25rem}.w-full{width:100%}.max-w-3xl{max-width:48rem}.max-w-6xl{max-width:72rem}.-translate-y-1\/2{--tw-translate-y: -50%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse: 0;margin-top:calc(.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-blue-500{--tw-border-opacity: 1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-blue-500\/30{border-color:#3b82f64d}.border-purple-500{--tw-border-opacity: 1;border-color:rgb(168 85 247 / var(--tw-border-opacity, 1))}.border-purple-500\/30{border-color:#a855f74d}.border-slate-600{--tw-border-opacity: 1;border-color:rgb(71 85 105 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity: 1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-700\/50{border-color:#33415580}.bg-blue-500\/10{background-color:#3b82f61a}.bg-blue-600{--tw-bg-opacity: 1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-blue-600\/10{background-color:#2563eb1a}.bg-purple-500\/10{background-color:#a855f71a}.bg-purple-600{--tw-bg-opacity: 1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-purple-600\/10{background-color:#9333ea1a}.bg-slate-800{--tw-bg-opacity: 1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-800\/50{background-color:#1e293b80}.bg-slate-900{--tw-bg-opacity: 1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/30{background-color:#0f172a4d}.bg-slate-900\/50{background-color:#0f172a80}.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right,var(--tw-gradient-stops))}.from-blue-600\/20{--tw-gradient-from: rgb(37 99 235 / .2) var(--tw-gradient-from-position);--tw-gradient-to: rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)}.from-slate-900{--tw-gradient-from: #0f172a var(--tw-gradient-from-position);--tw-gradient-to: rgb(15 23 42 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)}.via-blue-900{--tw-gradient-to: rgb(30 58 138 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), #1e3a8a var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-purple-600\/20{--tw-gradient-to: rgb(147 51 234 / .2) var(--tw-gradient-to-position)}.to-slate-900{--tw-gradient-to: #0f172a var(--tw-gradient-to-position)}.p-1{padding:.25rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-8{padding-top:2rem;padding-bottom:2rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.text-blue-400{--tw-text-opacity: 1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-green-400{--tw-text-opacity: 1;color:rgb(74 222 128 / var(--tw-text-opacity, 1))}.text-purple-400{--tw-text-opacity: 1;color:rgb(192 132 252 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity: 1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity: 1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.placeholder-slate-500::-moz-placeholder{--tw-placeholder-opacity: 1;color:rgb(100 116 139 / var(--tw-placeholder-opacity, 1))}.placeholder-slate-500::placeholder{--tw-placeholder-opacity: 1;color:rgb(100 116 139 / var(--tw-placeholder-opacity, 1))}.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / .25);--tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.blur{--tw-blur: blur(8px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.\!filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)!important}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur{--tw-backdrop-blur: blur(8px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}body{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type=number]{-moz-appearance:textfield}.package-btn,.wire-btn,button{transition:all .2s ease-in-out}input:focus{outline:none}::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#1e293b}::-webkit-scrollbar-thumb{background:#475569;border-radius:4px}::-webkit-scrollbar-thumb:hover{background:#64748b}.hover\:border-blue-500:hover{--tw-border-opacity: 1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.hover\:bg-blue-700:hover{--tw-bg-opacity: 1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:bg-purple-700:hover{--tw-bg-opacity: 1;background-color:rgb(126 34 206 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity: 1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:text-blue-400:hover{--tw-text-opacity: 1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:border-blue-500:focus{--tw-border-opacity: 1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.focus\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500\/20:focus{--tw-ring-color: rgb(59 130 246 / .2)}.disabled\:cursor-not-allowed:disabled{cursor:not-allowed}.disabled\:opacity-50:disabled{opacity:.5}
-    </style>
-  <link rel="stylesheet" href="./MOS器件封装电阻计算器_files/css"></head>
-  <body>
-    <div id="app">
-      <div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-8 px-4">
-        <div class="max-w-3xl mx-auto">
-          <h1 class="text-3xl font-bold text-white mb-2 text-center">MOS器件封装电阻计算器</h1>
-          <p class="text-slate-400 text-center mb-8">根据封装类型和打线参数计算封装电阻</p>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MOS器件计算工具</title>
+  <style>
+    /* ===== 基础重置 ===== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;-webkit-text-size-adjust:100%}
+    body{
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:#080e1d;
+      color:#e2e8f0;
+      min-height:100vh;
+      line-height:1.5;
+    }
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    input{font-family:inherit;outline:none}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+    input[type=number]{-moz-appearance:textfield}
 
-          <div class="flex justify-center mb-6">
-            <div class="inline-flex rounded-lg bg-slate-800 p-1">
-              <button id="singleModeBtn" class="mode-btn px-6 py-2 rounded-md text-sm font-medium transition-all bg-blue-600 text-white" data-mode="single">单个计算</button>
-              <button id="compareModeBtn" class="mode-btn px-6 py-2 rounded-md text-sm font-medium transition-all text-slate-400 hover:text-white" data-mode="compare">对比模式</button>
+    /* ===== 全局布局 ===== */
+    #app{min-height:100vh;position:relative}
+
+    /* ===== 动态背景 ===== */
+    .page-bg{
+      min-height:100vh;
+      background:linear-gradient(160deg,#080e1d 0%,#0d1a3a 50%,#080e1d 100%);
+      position:relative;
+      padding:40px 16px 60px;
+    }
+    .page-bg::before{
+      content:'';
+      position:fixed;inset:0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 15%,rgba(59,130,246,.09) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 85%,rgba(139,92,246,.07) 0%,transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 50%,rgba(16,185,129,.04) 0%,transparent 60%);
+      pointer-events:none;z-index:0;
+    }
+    .page-inner{position:relative;z-index:1;margin:0 auto}
+
+    /* ===== 玻璃卡片 ===== */
+    .card{
+      background:rgba(255,255,255,.04);
+      backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .card-hover{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,background .28s ease}
+    .card-hover:hover{
+      transform:translateY(-5px);
+      background:rgba(255,255,255,.07);
+      border-color:rgba(59,130,246,.35);
+      box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 0 1px rgba(59,130,246,.2),inset 0 1px 0 rgba(255,255,255,.1);
+    }
+
+    /* ===== 渐变文字 ===== */
+    .grad-blue{background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .grad-green{background:linear-gradient(135deg,#34d399,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* ===== 标题区 ===== */
+    .page-header{text-align:center;margin-bottom:44px}
+    .badge-pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:5px 16px;
+      background:rgba(59,130,246,.1);
+      border:1px solid rgba(59,130,246,.25);
+      border-radius:20px;margin-bottom:18px;
+    }
+    .badge-dot{width:7px;height:7px;border-radius:50%;background:#60a5fa;box-shadow:0 0 8px rgba(96,165,250,.9)}
+    .badge-text{font-size:11px;font-weight:600;color:#60a5fa;letter-spacing:.07em;text-transform:uppercase}
+    .page-title{font-size:38px;font-weight:700;letter-spacing:-.025em;line-height:1.15;color:#f1f5f9;margin-bottom:10px}
+    .page-sub{font-size:14px;color:#4b5f7c;font-weight:400}
+
+    /* ===== 模块卡片网格 ===== */
+    .module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:760px;margin:0 auto}
+    .module-card{padding:28px;cursor:pointer;position:relative;overflow:hidden}
+    .module-card .glow-bg{
+      position:absolute;top:-50px;right:-50px;width:130px;height:130px;
+      border-radius:50%;pointer-events:none;
+    }
+    .module-card .card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+    .icon-box{
+      width:50px;height:50px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .icon-box-blue{background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(99,102,241,.18));border:1px solid rgba(59,130,246,.28)}
+    .icon-box-green{background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(59,130,246,.18));border:1px solid rgba(16,185,129,.28)}
+    .card-title{font-size:17px;font-weight:600;color:#f1f5f9;margin-bottom:3px}
+    .card-desc{font-size:12px;color:#64748b}
+    .card-arrow{color:#334155;flex-shrink:0;margin-top:4px}
+    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .feature-item{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#94a3b8}
+
+    /* ===== 顶部导航 ===== */
+    .top-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .btn-back{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:8px 14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:9px;color:#94a3b8;font-size:13px;font-weight:500;
+      transition:all .2s ease;
+    }
+    .btn-back:hover{background:rgba(255,255,255,.08);color:#e2e8f0;border-color:rgba(255,255,255,.15)}
+    .nav-title-wrap{text-align:center}
+    .nav-title{font-size:21px;font-weight:700;color:#f1f5f9;letter-spacing:-.01em;margin-bottom:2px}
+    .nav-sub{font-size:11px;color:#475569}
+
+    /* ===== 模式切换 ===== */
+    .mode-wrap{display:flex;justify-content:center;margin-bottom:22px}
+    .mode-switcher{
+      display:inline-flex;
+      background:rgba(15,23,42,.7);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;padding:4px;gap:3px;
+    }
+    .mode-btn{
+      padding:8px 22px;border-radius:9px;font-size:13px;font-weight:500;
+      color:#4b5f7c;background:transparent;transition:all .2s ease;
+    }
+    .mode-btn.active{
+      background:linear-gradient(135deg,#3b82f6,#6366f1);
+      color:#fff;
+      box-shadow:0 2px 10px rgba(59,130,246,.4);
+    }
+
+    /* ===== 表单元素 ===== */
+    .lbl{display:block;font-size:11px;font-weight:600;color:#64748b;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+    .inp{
+      width:100%;padding:10px 13px;
+      background:rgba(10,17,32,.65);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:10px;color:#e2e8f0;font-size:14px;
+      transition:border-color .2s ease,box-shadow .2s ease;
+    }
+    .inp:focus{border-color:rgba(59,130,246,.55);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+    .inp::placeholder{color:#334155}
+
+    /* ===== 打线类型按钮 ===== */
+    .wire-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .wire-btn{
+      padding:9px 4px;border-radius:9px;font-size:12.5px;font-weight:500;text-align:center;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(10,17,32,.4);color:#4b5f7c;
+      transition:all .2s ease;
+    }
+    .wire-btn:hover{border-color:rgba(59,130,246,.4);color:#93c5fd;background:rgba(59,130,246,.08)}
+    .wire-btn.w-copper{border-color:rgba(251,191,36,.55);background:rgba(251,191,36,.09);color:#fbbf24;box-shadow:0 0 10px rgba(251,191,36,.15)}
+    .wire-btn.w-aluminum{border-color:rgba(148,163,184,.5);background:rgba(148,163,184,.09);color:#94a3b8;box-shadow:0 0 10px rgba(148,163,184,.12)}
+    .wire-btn.w-gold{border-color:rgba(251,146,60,.55);background:rgba(251,146,60,.09);color:#fb923c;box-shadow:0 0 10px rgba(251,146,60,.15)}
+    .wire-btn.w-aluminumStrip{border-color:rgba(167,139,250,.55);background:rgba(167,139,250,.09);color:#a78bfa;box-shadow:0 0 10px rgba(167,139,250,.15)}
+
+    /* ===== 下拉框 ===== */
+    .dd-wrap{position:relative}
+    .dd-menu{
+      position:absolute;z-index:200;width:100%;margin-top:6px;
+      background:#0c1526;border:1px solid rgba(255,255,255,.1);border-radius:12px;
+      box-shadow:0 24px 56px rgba(0,0,0,.6);overflow:hidden;display:none;
+    }
+    .dd-search{padding:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .dd-list{max-height:210px;overflow-y:auto}
+    .dd-list::-webkit-scrollbar{width:4px}
+    .dd-list::-webkit-scrollbar-track{background:transparent}
+    .dd-list::-webkit-scrollbar-thumb{background:#1e3355;border-radius:4px}
+    .dd-item{padding:9px 14px;font-size:13px;color:#94a3b8;cursor:pointer;transition:all .15s}
+    .dd-item:hover{background:rgba(59,130,246,.1);color:#93c5fd}
+
+    /* ===== 主按钮 ===== */
+    .btn-calc-blue{
+      width:100%;padding:12px 24px;
+      background:linear-gradient(135deg,#3b82f6,#6366f1);
+      border-radius:11px;color:#fff;font-size:14px;font-weight:600;
+      box-shadow:0 4px 14px rgba(59,130,246,.38);letter-spacing:.02em;
+      transition:all .25s ease;
+    }
+    .btn-calc-blue:hover{background:linear-gradient(135deg,#2563eb,#4f46e5);box-shadow:0 6px 22px rgba(59,130,246,.55);transform:translateY(-1px)}
+    .btn-calc-purple{
+      width:100%;padding:12px 24px;
+      background:linear-gradient(135deg,#8b5cf6,#6366f1);
+      border-radius:11px;color:#fff;font-size:14px;font-weight:600;
+      box-shadow:0 4px 14px rgba(139,92,246,.38);letter-spacing:.02em;
+      transition:all .25s ease;
+    }
+    .btn-calc-purple:hover{background:linear-gradient(135deg,#7c3aed,#4f46e5);box-shadow:0 6px 22px rgba(139,92,246,.55);transform:translateY(-1px)}
+    .btn-calc-green{
+      width:100%;padding:12px 24px;
+      background:linear-gradient(135deg,#10b981,#3b82f6);
+      border-radius:11px;color:#fff;font-size:14px;font-weight:600;
+      box-shadow:0 4px 14px rgba(16,185,129,.35);letter-spacing:.02em;
+      transition:all .25s ease;
+    }
+    .btn-calc-green:hover{box-shadow:0 6px 22px rgba(16,185,129,.5);transform:translateY(-1px)}
+
+    /* ===== 方案标签 ===== */
+    .scheme-tag{
+      width:28px;height:28px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:13px;font-weight:700;flex-shrink:0;
+    }
+    .scheme-tag-blue{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#60a5fa}
+    .scheme-tag-purple{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#c084fc}
+
+    /* ===== 结果卡片 ===== */
+    .res-num-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+    .res-num-box{
+      background:rgba(10,17,32,.55);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:13px;padding:16px;text-align:center;
+    }
+    .res-num-box.blue-glow{border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.06)}
+    .res-num-box.orange-glow{border-color:rgba(251,146,60,.2);background:rgba(251,146,60,.06)}
+    .res-num-box.green-glow{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.06)}
+    .res-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;font-weight:500}
+    .res-val{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+    .res-unit{font-size:11px;font-weight:500;margin-top:3px}
+
+    /* ===== 详情行 ===== */
+    .divider{height:1px;background:rgba(255,255,255,.06);margin:16px 0}
+    .sec-title{font-size:10.5px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .detail-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:7px 11px;border-radius:8px;
+      background:rgba(255,255,255,.02);margin-bottom:3px;font-size:13px;
+    }
+    .dk{color:#4b5f7c}.dv{color:#cbd5e1;font-weight:500}
+
+    /* ===== 公式卡片 ===== */
+    .formula-box{
+      background:rgba(59,130,246,.05);
+      border:1px solid rgba(59,130,246,.14);
+      border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;
+    }
+    .formula-text{font-size:15px;font-weight:600;color:#93c5fd;letter-spacing:.01em}
+
+    /* ===== 对比差异条 ===== */
+    .diff-bar{
+      background:rgba(10,17,32,.45);border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;padding:16px;text-align:center;
+    }
+    .diff-val{font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:4px}
+    .diff-hint{font-size:12px;color:#4b5f7c}
+
+    /* ===== 胜者徽章 ===== */
+    .winner-badge{
+      display:inline-flex;align-items:center;gap:4px;
+      padding:2px 9px;
+      background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);
+      border-radius:20px;font-size:11px;color:#34d399;font-weight:500;margin-top:7px;
+    }
+
+    /* ===== ID 结果展示 ===== */
+    .id-result-hero{
+      background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(59,130,246,.08));
+      border:1px solid rgba(16,185,129,.2);
+      border-radius:14px;padding:26px;text-align:center;margin-bottom:18px;
+    }
+    .id-hero-label{font-size:11px;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-weight:600}
+    .id-hero-val{font-size:36px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+    .id-hero-unit{font-size:13px;color:#64748b;margin-top:6px;font-weight:500}
+
+    /* ===== 计算过程代码块 ===== */
+    .code-block{
+      background:rgba(10,17,32,.5);border:1px solid rgba(255,255,255,.05);
+      border-radius:11px;padding:15px;
+      font-family:'Courier New',Courier,monospace;font-size:12px;
+      color:#64748b;line-height:1.8;
+    }
+    .code-var{color:#93c5fd}.code-result{color:#34d399;font-weight:600}
+
+    /* ===== 错误提示 ===== */
+    .err-box{
+      background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);
+      border-radius:12px;padding:14px;color:#f87171;font-size:13px;
+      display:flex;align-items:center;gap:10px;
+    }
+
+    /* ===== 动画 ===== */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .anim{animation:fadeUp .38s ease both}
+
+    /* ===== 辅助间距 ===== */
+    .mb4{margin-bottom:4px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+    .mb16{margin-bottom:16px}.mb20{margin-bottom:20px}.mb24{margin-bottom:24px}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ===================== 数据 =====================
+const MILS_TO_MM = 0.0254;
+const PKG = {
+  'TO-92-3L':{ls_a:2.5,ls_b:.08,ls_c:.05,lr_d:2.3,lr_e:.06},
+  'TO-126-3L':{ls_a:2.8,ls_b:.09,ls_c:.05,lr_d:2.5,lr_e:.07},
+  'TO-220-2L/3L':{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},
+  'TO-220C-3L':{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},
+  'TO-220F/2L':{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},
+  'TO-220F厚-3L':{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},
+  'TO-220F薄-3L':{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},
+  'TO-247-2L/3L':{ls_a:4.9,ls_b:.16,ls_c:.08,lr_d:4.8,lr_e:.05},
+  'TO-247-4L':{ls_a:4.9,ls_b:.16,ls_c:.08,lr_d:4.75,lr_e:.05},
+  'TO-247-PLUS/3L':{ls_a:4.8,ls_b:.16,ls_c:.08,lr_d:4.65,lr_e:.05},
+  'TO-251-3L':{ls_a:1.95,ls_b:.10,ls_c:.05,lr_d:1.9,lr_e:.07},
+  'TO-252/2L/3L':{ls_a:2.55,ls_b:.10,ls_c:.05,lr_d:2.4,lr_e:.07},
+  'TO-252大基岛':{ls_a:2.55,ls_b:.10,ls_c:.05,lr_d:2.4,lr_e:.07},
+  'TO-252-4L':{ls_a:2.55,ls_b:.10,ls_c:.05,lr_d:2.4,lr_e:.07},
+  'TO-252-5L':{ls_a:2.55,ls_b:.10,ls_c:.05,lr_d:2.4,lr_e:.07},
+  'TO-262/3L':{ls_a:3.3,ls_b:.11,ls_c:.07,lr_d:3.15,lr_e:.07},
+  'TO-263/2L':{ls_a:3.6,ls_b:.11,ls_c:.07,lr_d:3.45,lr_e:.07},
+  'TO-263A-7':{ls_a:3.65,ls_b:.11,ls_c:.07,lr_d:3.4,lr_e:.07},
+  'TO-263-5L':{ls_a:3.6,ls_b:.11,ls_c:.07,lr_d:3.4,lr_e:.07},
+  'TO-264-4L':{ls_a:4.5,ls_b:.12,ls_c:.08,lr_d:4.3,lr_e:.11},
+  'TO-3P/3PL/3PN':{ls_a:3.7,ls_b:.14,ls_c:.07,lr_d:3.3,lr_e:.09},
+  'DFN1006-2L/3L':{ls_a:.08,ls_b:.03,ls_c:.08,lr_d:.05,lr_e:.04},
+  'DFN1x1-4L':{ls_a:.1,ls_b:.03,ls_c:.08,lr_d:.06,lr_e:.04},
+  'DFN2x2-4L/6L':{ls_a:.15,ls_b:.04,ls_c:.09,lr_d:.1,lr_e:.05},
+  'DFN3x3-8L/10L':{ls_a:1.65,ls_b:.05,ls_c:.11,lr_d:1.45,lr_e:.06},
+  'PDFN3x3-8L':{ls_a:1.6,ls_b:.05,ls_c:.11,lr_d:1.4,lr_e:.06},
+  'PDFN3.3x3.3A':{ls_a:1.85,ls_b:.05,ls_c:.11,lr_d:1.65,lr_e:.06},
+  'DFN4x4-10L':{ls_a:2.3,ls_b:.06,ls_c:.12,lr_d:2.15,lr_e:.07},
+  'DFN5x6-8L':{ls_a:2.8,ls_b:.06,ls_c:.13,lr_d:2.65,lr_e:.07},
+  'PDFN5x6-8L':{ls_a:2.8,ls_b:.06,ls_c:.13,lr_d:2.65,lr_e:.07},
+  'PDFN5x6-8L大基岛':{ls_a:2.75,ls_b:.06,ls_c:.13,lr_d:2.6,lr_e:.07},
+  'DFN8x8-4L/8L':{ls_a:4.2,ls_b:.07,ls_c:.14,lr_d:4.05,lr_e:.08},
+  'PDFN8x8-8L':{ls_a:4.2,ls_b:.07,ls_c:.14,lr_d:4.05,lr_e:.08},
+  'TOLL-8L':{ls_a:4,ls_b:.03,ls_c:.05,lr_d:3.8,lr_e:.04},
+  'TOLT-8L':{ls_a:4,ls_b:.03,ls_c:.06,lr_d:3.8,lr_e:.04},
+  'SOP8/7L':{ls_a:2.8,ls_b:.06,ls_c:.10,lr_d:2.6,lr_e:.05},
+  'ESOP8/7L':{ls_a:2.8,ls_b:.06,ls_c:.10,lr_d:2.6,lr_e:.05},
+  'SOP14/16L':{ls_a:4.5,ls_b:.06,ls_c:.10,lr_d:4.3,lr_e:.05},
+  'TSSOP8/14':{ls_a:2.8,ls_b:.06,ls_c:.10,lr_d:2.6,lr_e:.05},
+  'SOT-23/3L':{ls_a:.15,ls_b:.04,ls_c:.08,lr_d:.1,lr_e:.04},
+  'SOT-23-5L/6L/S':{ls_a:.28,ls_b:.05,ls_c:.08,lr_d:.12,lr_e:.04},
+  'SOT-223/2L/3L':{ls_a:.8,ls_b:.07,ls_c:.10,lr_d:.6,lr_e:.05},
+  'SOT-89':{ls_a:.5,ls_b:.05,ls_c:.09,lr_d:.35,lr_e:.04},
+  'SOT-323':{ls_a:.18,ls_b:.03,ls_c:.06,lr_d:.05,lr_e:.03},
+  'SOT-353/363':{ls_a:.15,ls_b:.03,ls_c:.07,lr_d:.12,lr_e:.03},
+  'DIP-7/8':{ls_a:2,ls_b:.08,ls_c:.06,lr_d:1.8,lr_e:.06},
+};
+const RHO={copper:1.68e-8,aluminum:2.65e-8,gold:2.44e-8};
+const FK={copper:20500,aluminum:12557,gold:15208};
+const MNAME={copper:'铜线',aluminum:'铝线',gold:'金线',aluminumStrip:'铝带'};
+
+// ===================== 状态 =====================
+let mode='home';
+const stA={pkg:'TO-220-2L/3L',chipX:'3',chipY:'3',wire:'copper',count:'1',diam:'12',w:'40',t:'3.9',compare:false};
+const stB={pkg:'TO-220-2L/3L',chipX:'3',chipY:'3',wire:'aluminum',count:'1',diam:'12',w:'40',t:'3.9',compare:false};
+const stId={tjMax:'175',r25:'10',rjc:'1',tc:'25'};
+
+// ===================== 计算逻辑 =====================
+const A=0.0254;
+
+function calcR(pkg,chipX,chipY,wire,count,diam,width,thick){
+  const cfg=PKG[pkg];
+  if(!cfg) throw new Error('未知的封装类型: '+pkg);
+  const isStrip=wire==='aluminumStrip';
+  const matKey=isStrip?'aluminum':wire;
+  const rho=RHO[matKey];
+  let h=0,wlen,fuse=null;
+  if(isStrip&&width&&thick){
+    const wm=width*A,tm=thick*A;
+    h=wm*tm*1e-6;
+    wlen=cfg.lr_d+cfg.lr_e*chipY;
+    const m=wm*tm,E=Math.sqrt(4*m/Math.PI)/25.4;
+    fuse=FK.aluminum*Math.pow(E,1.5)*count;
+  } else if(diam){
+    const c=diam*A*0.001;
+    h=Math.PI*(c/2)*(c/2);
+    wlen=cfg.ls_a+cfg.ls_b*chipX+cfg.ls_c*chipY;
+    const m=diam/1000;
+    const fk=FK[wire];
+    if(fk) fuse=fk*Math.pow(m,1.5)*count;
+  } else {
+    throw new Error('请输入打线参数');
+  }
+  if(h===0||wlen===0) throw new Error('参数不能为零');
+  const I=wlen*0.001;
+  const k=rho*I/h;
+  return{resistance:k/count,fusingCurrent:fuse,
+    details:{material:MNAME[wire],wireCount:count,diameterMils:isStrip?null:diam,
+             widthMils:isStrip?width:null,thicknessMils:isStrip?thick:null,
+             crossSectionArea:h*1e6,wireLength:wlen,singleWireResistance:k}};
+}
+function calcId(tj,r25,rjc,tc){
+  const dt=tj-tc,rMin=r25*2.2,rMax=r25*2.7;
+  return{idMin:Math.sqrt(dt*1000/(rjc*rMax)),idMax:Math.sqrt(dt*1000/(rjc*rMin)),
+    details:{tjMax:tj,tc,r25,rjc,rHotMin:rMin,rHotMax:rMax,deltaT:dt}};
+}
+
+// ===================== SVG 图标 =====================
+const ico={
+  back:`<svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>`,
+  check:`<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(96,165,250,.4)"/><path d="M3.5 6l2 2 3-3" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  checkG:`<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(52,211,153,.4)"/><path d="M3.5 6l2 2 3-3" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  arr:`<svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>`,
+  warn:`<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  bolt:`<svg width="22" height="22" fill="none" stroke="#34d399" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
+  calc:`<svg width="22" height="22" fill="none" stroke="#60a5fa" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`,
+};
+
+// ===================== 页面渲染 =====================
+const app=document.getElementById('app');
+
+function goHome(){
+  mode='home';
+  app.innerHTML=`
+  <div class="page-bg">
+    <div class="page-inner anim" style="max-width:780px">
+      <div class="page-header">
+        <div class="badge-pill"><div class="badge-dot"></div><span class="badge-text">MOS Device Toolkit</span></div>
+        <h1 class="page-title">MOS 器件<span class="grad-blue">计算工具</span></h1>
+        <p class="page-sub">选择功能模块开始计算</p>
+      </div>
+      <div class="module-grid">
+        <div class="card card-hover module-card" onclick="goResistance()">
+          <div class="glow-bg" style="background:radial-gradient(circle,rgba(59,130,246,.12) 0%,transparent 70%)"></div>
+          <div class="card-header">
+            <div class="icon-box icon-box-blue">${ico.calc}</div>
+            <div style="flex:1">
+              <div class="card-title">封装电阻计算</div>
+              <div class="card-desc">计算打线电阻与极限电流</div>
             </div>
+            <div class="card-arrow">${ico.arr}</div>
           </div>
+          <div class="feature-grid">
+            ${['支持 47 种封装','铜 / 铝 / 金 / 铝带','自动计算电阻','熔断极限电流'].map(t=>`
+              <div class="feature-item">${ico.check} ${t}</div>`).join('')}
+          </div>
+        </div>
+        <div class="card card-hover module-card" onclick="goId()">
+          <div class="glow-bg" style="background:radial-gradient(circle,rgba(16,185,129,.1) 0%,transparent 70%)"></div>
+          <div class="card-header">
+            <div class="icon-box icon-box-green">${ico.bolt}</div>
+            <div style="flex:1">
+              <div class="card-title">ID 电流计算</div>
+              <div class="card-desc">计算器件最大工作电流</div>
+            </div>
+            <div class="card-arrow">${ico.arr}</div>
+          </div>
+          <div class="feature-grid">
+            ${['输入结温 / 电阻 / 热阻','计算 ID 范围','基于热特性公式','考虑高温电阻变化'].map(t=>`
+              <div class="feature-item">${ico.checkG} ${t}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:38px;font-size:12px;color:#1e3355">封装参数持续更新 · 支持更多规格</div>
+    </div>
+  </div>`;
+}
 
-          <div class="bg-slate-800/50 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/50 p-6 p-8">
-            
-      <div class="mb-6">
-        <label class="block text-slate-300 text-sm font-medium mb-2">封装类型</label>
-        
-      <div class="relative">
-        <input type="text" id="packageSearch" class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all cursor-pointer" placeholder="选择封装类型" autocomplete="off" readonly="">
-        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        <div class="packageSearchDropdown absolute z-50 w-full mt-2 bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden hidden">
-          <div class="p-2 border-b border-slate-700"><input type="text" class="packageSearchFilter w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:border-blue-500 outline-none" placeholder="输入搜索..." autocomplete="off"></div>
-          <div class="packageSearchList max-h-48 overflow-y-auto"><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-92-3L">TO-92-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-126-3L">TO-126-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-220-2L/3L">TO-220-2L/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-220C-3L">TO-220C-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-220F/2L">TO-220F/2L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-220F厚-3L">TO-220F厚-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-220F薄-3L">TO-220F薄-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-247-2L/3L">TO-247-2L/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-247-4L">TO-247-4L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-247-PLUS/3L">TO-247-PLUS/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-251-3L">TO-251-3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-252/2L/3L">TO-252/2L/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-252大基岛">TO-252大基岛</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-252-4L">TO-252-4L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-252-5L">TO-252-5L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-262/3L">TO-262/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-263/2L">TO-263/2L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-263A-7">TO-263A-7</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-263-5L">TO-263-5L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-264-4L">TO-264-4L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TO-3P/3PL/3PN">TO-3P/3PL/3PN</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN1006-2L/3L">DFN1006-2L/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN1x1-4L">DFN1x1-4L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN2x2-4L/6L">DFN2x2-4L/6L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN3x3-8L/10L">DFN3x3-8L/10L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="PDFN3x3-8L">PDFN3x3-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="PDFN3.3x3.3A">PDFN3.3x3.3A</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN4x4-10L">DFN4x4-10L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN5x6-8L">DFN5x6-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="PDFN5x6-8L">PDFN5x6-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="PDFN5x6-8L大基岛">PDFN5x6-8L大基岛</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DFN8x8-4L/8L">DFN8x8-4L/8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="PDFN8x8-8L">PDFN8x8-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TOLL-8L">TOLL-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TOLT-8L">TOLT-8L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOP8/7L">SOP8/7L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="ESOP8/7L">ESOP8/7L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOP14/16L">SOP14/16L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="TSSOP8/14">TSSOP8/14</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-23/3L">SOT-23/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-23-5L/6L/S">SOT-23-5L/6L/S</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-223/2L/3L">SOT-223/2L/3L</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-89">SOT-89</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-323">SOT-323</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-353/363">SOT-353/363</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DIP-7/8">DIP-7/8</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT353">SOT353</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT-363">SOT-363</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="SOT2233">SOT2233</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DIP7">DIP7</div><div class="packageSearchOption px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="DIP8">DIP8</div></div>
-        </div>
-      </div>
-    
-      </div>
-      <div class="mb-4">
-        <label class="block text-slate-300 text-sm font-medium mb-2">芯片尺寸</label>
-        
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="block text-slate-400 text-xs mb-1">芯片长度 X (mm)</label>
-          <input type="number" id="ChipX" min="0.1" step="0.1" value="" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="长度">
-        </div>
-        <div>
-          <label class="block text-slate-400 text-xs mb-1">芯片宽度 Y (mm)</label>
-          <input type="number" id="ChipY" min="0.1" step="0.1" value="" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="宽度">
-        </div>
-      </div>
-    
-      </div>
-      <div class="mb-6">
-        <label class="block text-slate-300 text-sm font-medium mb-2">打线方式</label>
-        
-      <div class="grid grid-cols-4 gap-2">
-        <button type="button" class="WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="copper">铜线</button>
-        <button type="button" class="WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="aluminum">铝线</button>
-        <button type="button" class="WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="gold">金线</button>
-        <button type="button" class="WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="aluminumStrip">铝带</button>
-      </div>
-    
-      </div>
-      <div id="inputSection" class="mb-6"><div class="text-slate-500 text-center py-4 text-sm">请先选择打线方式</div></div>
-      <button id="calculateBtn" type="button" class="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled="">计算封装电阻</button>
-    
-          </div>
+function goResistance(){
+  mode='resistance';
+  renderResPage();
+}
 
-          <div id="resultsSection" class="mt-8">
-            
-      <div class="bg-slate-800/50 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/50 p-8 hidden" id="singleResults">
-        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          计算结果
-        </h2>
-        <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 mb-4">
-          <div class="text-center">
-            <div class="text-slate-400 text-sm mb-2">封装电阻</div>
-            <div class="text-4xl font-bold text-white" id="resistanceResult">-- mΩ</div>
-          </div>
+function renderResPage(){
+  const isC=stA.compare;
+  const maxW=isC?'1060px':'580px';
+  app.innerHTML=`
+  <div class="page-bg">
+    <div class="page-inner anim" style="max-width:${maxW}">
+      <div class="top-nav mb24">
+        <button class="btn-back" onclick="goHome()">${ico.back} 返回主页</button>
+        <div class="nav-title-wrap">
+          <div class="nav-title">封装电阻计算</div>
+          <div class="nav-sub">打线电阻 · 极限电流</div>
         </div>
-        <div class="grid grid-cols-2 gap-3" id="detailsGrid"></div>
-        <div class="mt-4 p-3 bg-slate-900/50 rounded-lg">
-          <p class="text-slate-400 text-xs"><span class="text-blue-400">R</span> = ρ × L / A (单位: mΩ)</p>
+        <div style="width:90px"></div>
+      </div>
+      <div class="mode-wrap mb24">
+        <div class="mode-switcher">
+          <button class="mode-btn ${!isC?'active':''}" id="btnSingle" onclick="toggleCompare(false)">单个计算</button>
+          <button class="mode-btn ${isC?'active':''}" id="btnComp" onclick="toggleCompare(true)">对比模式</button>
         </div>
       </div>
-    
-          </div>
+      <div id="calcArea"></div>
+    </div>
+  </div>`;
+  renderCalcArea();
+}
 
-          <div class="mt-8 text-center text-slate-500 text-sm">
-            <p>封装类型将持续更新支持更多规格</p>
+function renderCalcArea(){
+  const area=document.getElementById('calcArea');
+  if(!area) return;
+  if(stA.compare){
+    area.innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        ${calcCard('A',stA,'blue')}${calcCard('B',stB,'purple')}
+      </div>
+      <div id="resArea" style="margin-top:18px"></div>`;
+  } else {
+    area.innerHTML=`
+      <div style="max-width:520px;margin:0 auto">${calcCard('A',stA,'blue')}</div>
+      <div id="resArea" style="margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto"></div>`;
+  }
+}
+
+function pkgOptions(id){
+  return Object.keys(PKG).map(p=>`<div class="dd-item" onclick="pickPkg('${id}','${p}')">${p}</div>`).join('');
+}
+
+function calcCard(id,st,color){
+  const isStrip=st.wire==='aluminumStrip';
+  const btnCls=color==='blue'?'btn-calc-blue':'btn-calc-purple';
+  const tagCls=color==='blue'?'scheme-tag-blue':'scheme-tag-purple';
+  const wireBtns=['copper','aluminum','gold','aluminumStrip'].map(k=>{
+    const labels={copper:'铜线',aluminum:'铝线',gold:'金线',aluminumStrip:'铝带'};
+    const act=st.wire===k?` w-${k}`:'';
+    return `<button class="wire-btn${act}" onclick="setWire('${id}','${k}')">${labels[k]}</button>`;
+  }).join('');
+  return `
+  <div class="card" style="padding:24px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-40px;right:-40px;width:110px;height:110px;
+         border-radius:50%;pointer-events:none;background:radial-gradient(circle,
+         ${color==='blue'?'rgba(59,130,246,.09)':'rgba(139,92,246,.08)'} 0%,transparent 70%)"></div>
+    <div style="display:flex;align-items:center;gap:10px" class="mb20">
+      <div class="scheme-tag ${tagCls}">${id}</div>
+      <span style="font-size:15px;font-weight:600;color:#e2e8f0">方案 ${id}</span>
+    </div>
+    <div class="mb16">
+      <span class="lbl">封装类型</span>
+      <div class="dd-wrap" id="ddWrap${id}">
+        <input class="inp" id="pkgInp${id}" value="${st.pkg}" placeholder="选择或输入封装类型"
+               style="cursor:pointer" autocomplete="off" readonly
+               onclick="toggleDd('${id}')" />
+        <div class="dd-menu" id="ddMenu${id}">
+          <div class="dd-search">
+            <input class="inp" id="ddSearch${id}" placeholder="搜索封装…"
+                   oninput="filterDd('${id}',this.value)" style="font-size:13px;padding:8px 12px" autocomplete="off"/>
           </div>
+          <div class="dd-list" id="ddList${id}">${pkgOptions(id)}</div>
         </div>
       </div>
     </div>
-    <script>
-(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const l of document.querySelectorAll('link[rel="modulepreload"]'))t(l);new MutationObserver(l=>{for(const d of l)if(d.type==="childList")for(const x of d.addedNodes)x.tagName==="LINK"&&x.rel==="modulepreload"&&t(x)}).observe(document,{childList:!0,subtree:!0});function r(l){const d={};return l.integrity&&(d.integrity=l.integrity),l.referrerPolicy&&(d.referrerPolicy=l.referrerPolicy),l.crossOrigin==="use-credentials"?d.credentials="include":l.crossOrigin==="anonymous"?d.credentials="omit":d.credentials="same-origin",d}function t(l){if(l.ep)return;l.ep=!0;const d=r(l);fetch(l.href,d)}})();const A=.0254,P={"TO-92-3L":{ls_a:2.5,ls_b:.08,ls_c:.05,lr_d:2.3,lr_e:.06},"TO-126-3L":{ls_a:2.8,ls_b:.09,ls_c:.05,lr_d:2.5,lr_e:.07},"TO-220-2L/3L":{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},"TO-220C-3L":{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},"TO-220F/2L":{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},"TO-220F厚-3L":{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},"TO-220F薄-3L":{ls_a:4.7,ls_b:.12,ls_c:.06,lr_d:4.6,lr_e:.08},"TO-247-2L/3L":{ls_a:4.9,ls_b:.16,ls_c:.08,lr_d:4.8,lr_e:.05},"TO-247-4L":{ls_a:4.9,ls_b:.16,ls_c:.08,lr_d:4.75,lr_e:.05},"TO-247-PLUS/3L":{ls_a:4.8,ls_b:.16,ls_c:.08,lr_d:4.65,lr_e:.05},"TO-251-3L":{ls_a:1.95,ls_b:.1,ls_c:.05,lr_d:1.9,lr_e:.07},"TO-252/2L/3L":{ls_a:2.55,ls_b:.1,ls_c:.05,lr_d:2.4,lr_e:.07},"TO-252大基岛":{ls_a:2.55,ls_b:.1,ls_c:.05,lr_d:2.4,lr_e:.07},"TO-252-4L":{ls_a:2.55,ls_b:.1,ls_c:.05,lr_d:2.4,lr_e:.07},"TO-252-5L":{ls_a:2.55,ls_b:.1,ls_c:.05,lr_d:2.4,lr_e:.07},"TO-262/3L":{ls_a:3.3,ls_b:.11,ls_c:.07,lr_d:3.15,lr_e:.07},"TO-263/2L":{ls_a:3.6,ls_b:.11,ls_c:.07,lr_d:3.45,lr_e:.07},"TO-263A-7":{ls_a:3.65,ls_b:.11,ls_c:.07,lr_d:3.4,lr_e:.07},"TO-263-5L":{ls_a:3.6,ls_b:.11,ls_c:.07,lr_d:3.4,lr_e:.07},"TO-264-4L":{ls_a:4.5,ls_b:.12,ls_c:.08,lr_d:4.3,lr_e:.11},"TO-3P/3PL/3PN":{ls_a:3.7,ls_b:.14,ls_c:.07,lr_d:3.3,lr_e:.09},"DFN1006-2L/3L":{ls_a:.08,ls_b:.03,ls_c:.08,lr_d:.05,lr_e:.04},"DFN1x1-4L":{ls_a:.1,ls_b:.03,ls_c:.08,lr_d:.06,lr_e:.04},"DFN2x2-4L/6L":{ls_a:.15,ls_b:.04,ls_c:.09,lr_d:.1,lr_e:.05},"DFN3x3-8L/10L":{ls_a:1.65,ls_b:.05,ls_c:.11,lr_d:1.45,lr_e:.06},"PDFN3x3-8L":{ls_a:1.6,ls_b:.05,ls_c:.11,lr_d:1.4,lr_e:.06},"PDFN3.3x3.3A":{ls_a:1.85,ls_b:.05,ls_c:.11,lr_d:1.65,lr_e:.06},"DFN4x4-10L":{ls_a:2.3,ls_b:.06,ls_c:.12,lr_d:2.15,lr_e:.07},"DFN5x6-8L":{ls_a:2.8,ls_b:.06,ls_c:.13,lr_d:2.65,lr_e:.07},"PDFN5x6-8L":{ls_a:2.8,ls_b:.06,ls_c:.13,lr_d:2.65,lr_e:.07},"PDFN5x6-8L大基岛":{ls_a:2.75,ls_b:.06,ls_c:.13,lr_d:2.6,lr_e:.07},"DFN8x8-4L/8L":{ls_a:4.2,ls_b:.07,ls_c:.14,lr_d:4.05,lr_e:.08},"PDFN8x8-8L":{ls_a:4.2,ls_b:.07,ls_c:.14,lr_d:4.05,lr_e:.08},"TOLL-8L":{ls_a:4,ls_b:.03,ls_c:.05,lr_d:3.8,lr_e:.04},"TOLT-8L":{ls_a:4,ls_b:.03,ls_c:.06,lr_d:3.8,lr_e:.04},"SOP8/7L":{ls_a:2.8,ls_b:.06,ls_c:.1,lr_d:2.6,lr_e:.05},"ESOP8/7L":{ls_a:2.8,ls_b:.06,ls_c:.1,lr_d:2.6,lr_e:.05},"SOP14/16L":{ls_a:4.5,ls_b:.06,ls_c:.1,lr_d:4.3,lr_e:.05},"TSSOP8/14":{ls_a:2.8,ls_b:.06,ls_c:.1,lr_d:2.6,lr_e:.05},"SOT-23/3L":{ls_a:.15,ls_b:.04,ls_c:.08,lr_d:.1,lr_e:.04},"SOT-23-5L/6L/S":{ls_a:.28,ls_b:.05,ls_c:.08,lr_d:.12,lr_e:.04},"SOT-223/2L/3L":{ls_a:.8,ls_b:.07,ls_c:.1,lr_d:.6,lr_e:.05},"SOT-89":{ls_a:.5,ls_b:.05,ls_c:.09,lr_d:.35,lr_e:.04},"SOT-323":{ls_a:.18,ls_b:.03,ls_c:.06,lr_d:.05,lr_e:.03},"SOT-353/363":{ls_a:.15,ls_b:.03,ls_c:.07,lr_d:.12,lr_e:.03},"DIP-7/8":{ls_a:2,ls_b:.08,ls_c:.06,lr_d:1.8,lr_e:.06},SOT353:{ls_a:.1,ls_b:.1,ls_c:.22,lr_d:.06,lr_e:.1},"SOT-363":{ls_a:.1,ls_b:.1,ls_c:.22,lr_d:.06,lr_e:.1},SOT2233:{ls_a:.8,ls_b:.28,ls_c:.38,lr_d:.4,lr_e:.18},DIP7:{ls_a:2,ls_b:.35,ls_c:.25,lr_d:1,lr_e:.25},DIP8:{ls_a:2,ls_b:.35,ls_c:.25,lr_d:1,lr_e:.25}},K={copper:168e-10,aluminum:265e-10,gold:244e-10},Y={copper:20500,aluminum:12557,gold:15208};function q(b,i,r){const t=P[b];return t?t.ls_a+t.ls_b*i+t.ls_c*r:0}function H(b,i){const r=P[b];return r?r.lr_d+r.lr_e*i:0}function D(b,i,r,t,l,d,x,g){const w=K[i==="aluminumStrip"?"aluminum":i];if(!w)return null;let h=0,y="",L=0,T;if(i==="aluminumStrip"&&x&&g){const _=x*A,c=g*A;h=_*c*1e-6,y="铝带",L=H(b,l);const m=_*c,E=Math.sqrt(4*m/Math.PI)/25.4;T=Y.aluminum*Math.pow(E,1.5)*r}else if((i==="copper"||i==="aluminum"||i==="gold")&&d){const c=d*A*.001;h=Math.PI*Math.pow(c/2,2),i==="copper"?y="铜线":i==="aluminum"?y="铝线":y="金线",L=q(b,t,l);const m=d/1e3,$=Y[i];$&&(T=$*Math.pow(m,1.5)*r)}else return null;if(h===0||L===0)return null;const I=L*.001,k=w*I/h;return{resistance:k/r,fusingCurrent:T,details:{material:y,resistivity:w,wireLength:q(b,t,l),ribbonLength:H(b,l),crossSectionalArea:h*1e6,singleWireResistance:k,wireCount:r,diameterMils:d,widthMils:x,thicknessMils:g}}}function U(){const b=document.getElementById("app");if(!b)return;let i=!1,r=null;const t={wireType:null,wireCount:1,chipX:0,chipY:0,diameter:0,width:0,thickness:0,result:null},l={wireType:null,wireCount:1,chipX:0,chipY:0,diameter:0,width:0,thickness:0,result:null};function d(){b&&(b.innerHTML=`
-      <div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-8 px-4">
-        <div class="${i?"max-w-6xl":"max-w-3xl"} mx-auto">
-          <h1 class="text-3xl font-bold text-white mb-2 text-center">MOS器件封装电阻计算器</h1>
-          <p class="text-slate-400 text-center mb-8">根据封装类型和打线参数计算封装电阻</p>
-
-          <div class="flex justify-center mb-6">
-            <div class="inline-flex rounded-lg bg-slate-800 p-1">
-              <button id="singleModeBtn" class="mode-btn px-6 py-2 rounded-md text-sm font-medium transition-all ${i?"text-slate-400 hover:text-white":"bg-blue-600 text-white"}" data-mode="single">单个计算</button>
-              <button id="compareModeBtn" class="mode-btn px-6 py-2 rounded-md text-sm font-medium transition-all ${i?"bg-blue-600 text-white":"text-slate-400 hover:text-white"}" data-mode="compare">对比模式</button>
-            </div>
-          </div>
-
-          <div class="bg-slate-800/50 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/50 p-6 ${i?"":"p-8"}">
-            ${i?L():y()}
-          </div>
-
-          <div id="resultsSection" class="mt-8">
-            ${i?I():T()}
-          </div>
-
-          <div class="mt-8 text-center text-slate-500 text-sm">
-            <p>封装类型将持续更新支持更多规格</p>
-          </div>
-        </div>
+    <div class="row2 mb16">
+      <div>
+        <span class="lbl">芯片长度 X (mm)</span>
+        <input class="inp" type="number" step=".1" min="0" id="chipX${id}" value="${st.chipX}"
+               oninput="upSt('${id}','chipX',this.value)" placeholder="如: 3.0"/>
       </div>
-    `,G())}function x(e){return`
-      <div class="relative">
-        <input type="text" id="${e}" class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all cursor-pointer" placeholder="选择封装类型" autocomplete="off" readonly />
-        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        <div class="${e}Dropdown absolute z-50 w-full mt-2 bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden hidden">
-          <div class="p-2 border-b border-slate-700"><input type="text" class="${e}Filter w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-white placeholder-slate-500 focus:border-blue-500 outline-none" placeholder="输入搜索..." autocomplete="off" /></div>
-          <div class="${e}List max-h-48 overflow-y-auto"></div>
-        </div>
+      <div>
+        <span class="lbl">芯片宽度 Y (mm)</span>
+        <input class="inp" type="number" step=".1" min="0" id="chipY${id}" value="${st.chipY}"
+               oninput="upSt('${id}','chipY',this.value)" placeholder="如: 3.0"/>
       </div>
-    `}function g(e){return`
-      <div class="grid grid-cols-4 gap-2">
-        <button type="button" class="${e}WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="copper">铜线</button>
-        <button type="button" class="${e}WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="aluminum">铝线</button>
-        <button type="button" class="${e}WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="gold">金线</button>
-        <button type="button" class="${e}WireBtn wire-btn px-3 py-2 rounded-lg border-2 border-slate-600 text-slate-300 text-sm font-medium transition-all hover:border-blue-500 hover:text-blue-400" data-value="aluminumStrip">铝带</button>
-      </div>
-    `}function w(e,s){return`
-      <div class="grid grid-cols-2 gap-3">
+    </div>
+    <div class="mb16">
+      <span class="lbl">打线方式</span>
+      <div class="wire-grid">${wireBtns}</div>
+    </div>
+    <div class="mb16">
+      <span class="lbl">打线根数</span>
+      <input class="inp" type="number" min="1" max="100" id="cnt${id}" value="${st.count}"
+             oninput="upSt('${id}','count',this.value)" placeholder="如: 1"/>
+    </div>
+    <div id="diamSec${id}" class="mb16${isStrip?' hidden':''}">
+      <span class="lbl">打线直径 (mils)</span>
+      <input class="inp" type="number" step=".1" min="1" id="diam${id}" value="${st.diam}"
+             oninput="upSt('${id}','diam',this.value)" placeholder="如: 12"/>
+    </div>
+    <div id="stripSec${id}" class="${isStrip?'':'hidden'}">
+      <div class="row2 mb16">
         <div>
-          <label class="block text-slate-400 text-xs mb-1">芯片长度 X (mm)</label>
-          <input type="number" id="${e}ChipX" min="0.1" step="0.1" value="${s.chipX||""}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="长度">
+          <span class="lbl">铝带宽度 (mils)</span>
+          <input class="inp" type="number" step=".1" min="1" id="sw${id}" value="${st.w}"
+                 oninput="upSt('${id}','w',this.value)" placeholder="如: 40"/>
         </div>
         <div>
-          <label class="block text-slate-400 text-xs mb-1">芯片宽度 Y (mm)</label>
-          <input type="number" id="${e}ChipY" min="0.1" step="0.1" value="${s.chipY||""}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="宽度">
+          <span class="lbl">铝带厚度 (mils)</span>
+          <input class="inp" type="number" step=".1" min=".1" id="st${id}" value="${st.t}"
+                 oninput="upSt('${id}','t',this.value)" placeholder="如: 3.9"/>
         </div>
       </div>
-    `}function h(e,s){return s.wireType?s.wireType==="aluminumStrip"?`
-        <div class="space-y-3">
+    </div>
+    <button class="${btnCls}" onclick="doCalcR('${id}')">计算封装电阻</button>
+  </div>`;
+}
+
+function goId(){
+  mode='id';
+  app.innerHTML=`
+  <div class="page-bg">
+    <div class="page-inner anim" style="max-width:540px">
+      <div class="top-nav mb24">
+        <button class="btn-back" onclick="goHome()">${ico.back} 返回主页</button>
+        <div class="nav-title-wrap">
+          <div class="nav-title">ID 电流计算</div>
+          <div class="nav-sub">基于热特性的电流分析</div>
+        </div>
+        <div style="width:90px"></div>
+      </div>
+      <div class="card mb20" style="padding:20px">
+        <div class="sec-title">计算公式</div>
+        <div class="formula-box">
+          <div class="formula-text">ID = √[(TjMax − Tc) × 1000 / (RJC × Rhot)]</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5f7c">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(96,165,250,.4)"/><text x="7" y="11" text-anchor="middle" font-size="8" fill="#60a5fa" font-weight="700">i</text></svg>
+            <span><span style="color:#93c5fd;font-weight:500">Rhot</span> = R25 × (2.2 ~ 2.7)　高温电阻范围</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5f7c">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(96,165,250,.4)"/><text x="7" y="11" text-anchor="middle" font-size="8" fill="#60a5fa" font-weight="700">i</text></svg>
+            <span>返回 ID 范围：最小值（×2.7）~ 最大值（×2.2）</span>
+          </div>
+        </div>
+      </div>
+      <div class="card mb20" style="padding:24px">
+        <div class="sec-title">输入参数</div>
+        <div class="row2 mb20">
           <div>
-            <label class="block text-slate-400 text-xs mb-1">打线数量</label>
-            <input type="number" id="${e}WireCount" min="1" value="${s.wireCount}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none">
+            <span class="lbl">最大结温 TjMax (°C)</span>
+            <input class="inp" type="number" step="1" min="0" id="tjMax" value="${stId.tjMax}"
+                   oninput="stId.tjMax=this.value" placeholder="如: 175"/>
           </div>
           <div>
-            <label class="block text-slate-400 text-xs mb-1">铝带宽度 (mils)</label>
-            <input type="number" id="${e}StripWidth" min="4" step="1" value="${s.width||""}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="输入宽度">
+            <span class="lbl">外壳温度 Tc (°C)</span>
+            <input class="inp" type="number" step="1" min="0" id="tc" value="${stId.tc}"
+                   oninput="stId.tc=this.value" placeholder="如: 25"/>
           </div>
           <div>
-            <label class="block text-slate-400 text-xs mb-1">铝带厚度 (mils)</label>
-            <input type="number" id="${e}StripThickness" min="1" step="0.1" value="${s.thickness||""}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="输入厚度">
-          </div>
-        </div>
-      `:`
-        <div class="space-y-3">
-          <div>
-            <label class="block text-slate-400 text-xs mb-1">打线根数</label>
-            <input type="number" id="${e}WireCount" min="1" value="${s.wireCount}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none">
+            <span class="lbl">常温电阻 R25 (mΩ)</span>
+            <input class="inp" type="number" step=".1" min="0" id="r25" value="${stId.r25}"
+                   oninput="stId.r25=this.value" placeholder="如: 10"/>
           </div>
           <div>
-            <label class="block text-slate-400 text-xs mb-1">打线直径 (mils)</label>
-            <input type="number" id="${e}Diameter" min="4" step="1" value="${s.diameter||""}" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 outline-none" placeholder="输入直径">
+            <span class="lbl">热阻 RJC (°C/W)</span>
+            <input class="inp" type="number" step=".01" min="0" id="rjc" value="${stId.rjc}"
+                   oninput="stId.rjc=this.value" placeholder="如: 1"/>
           </div>
         </div>
-      `:'<div class="text-slate-500 text-center py-4 text-sm">请先选择打线方式</div>'}function y(){return`
-      <div class="mb-6">
-        <label class="block text-slate-300 text-sm font-medium mb-2">封装类型</label>
-        ${x("packageSearch")}
+        <button class="btn-calc-green" onclick="doCalcId()">计算 ID 电流</button>
       </div>
-      <div class="mb-4">
-        <label class="block text-slate-300 text-sm font-medium mb-2">芯片尺寸</label>
-        ${w("",t)}
-      </div>
-      <div class="mb-6">
-        <label class="block text-slate-300 text-sm font-medium mb-2">打线方式</label>
-        ${g("")}
-      </div>
-      <div id="inputSection" class="mb-6">${h("",t)}</div>
-      <button id="calculateBtn" type="button" class="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>计算封装电阻</button>
-    `}function L(){return`
-      <div class="mb-6">
-        <label class="block text-slate-300 text-sm font-medium mb-2">封装类型 (相同)</label>
-        ${x("comparePackage")}
-        <p class="text-slate-500 text-xs mt-1">对比两侧使用相同的封装类型</p>
-      </div>
+      <div id="idRes"></div>
+    </div>
+  </div>`;
+}
 
-      <div class="grid grid-cols-2 gap-6">
-        <div class="bg-slate-900/30 rounded-xl p-4 border border-slate-700">
-          <h3 class="text-blue-400 font-medium mb-3 text-center">方案 A</h3>
-          <div class="mb-4">
-            <label class="block text-slate-400 text-xs mb-2">芯片尺寸</label>
-            ${w("a",t)}
-          </div>
-          <div class="mb-4">
-            <label class="block text-slate-400 text-xs mb-2">打线方式</label>
-            ${g("a")}
-          </div>
-          <div id="inputSectionA">${h("a",t)}</div>
-          <button id="calculateABtn" type="button" class="w-full mt-4 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors text-sm disabled:opacity-50" disabled>计算 A</button>
-        </div>
+// ===================== 交互逻辑 =====================
+function toggleCompare(v){
+  stA.compare=v;stB.compare=v;
+  renderResPage();
+}
 
-        <div class="bg-slate-900/30 rounded-xl p-4 border border-slate-700">
-          <h3 class="text-purple-400 font-medium mb-3 text-center">方案 B</h3>
-          <div class="mb-4">
-            <label class="block text-slate-400 text-xs mb-2">芯片尺寸</label>
-            ${w("b",l)}
-          </div>
-          <div class="mb-4">
-            <label class="block text-slate-400 text-xs mb-2">打线方式</label>
-            ${g("b")}
-          </div>
-          <div id="inputSectionB">${h("b",l)}</div>
-          <button id="calculateBBtn" type="button" class="w-full mt-4 py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors text-sm disabled:opacity-50" disabled>计算 B</button>
-        </div>
+function toggleDd(id){
+  const m=document.getElementById('ddMenu'+id);
+  if(!m) return;
+  const open=m.style.display==='block';
+  document.querySelectorAll('.dd-menu').forEach(el=>el.style.display='none');
+  m.style.display=open?'none':'block';
+  if(!open) setTimeout(()=>{ const s=document.getElementById('ddSearch'+id); if(s) s.focus(); },40);
+}
+
+function filterDd(id,val){
+  const list=document.getElementById('ddList'+id);
+  if(!list) return;
+  const f=val.toLowerCase();
+  list.querySelectorAll('.dd-item').forEach(el=>{
+    el.style.display=el.textContent.toLowerCase().includes(f)?'':'none';
+  });
+}
+
+function pickPkg(id,pkg){
+  const st=id==='A'?stA:stB;
+  st.pkg=pkg;
+  const inp=document.getElementById('pkgInp'+id);
+  if(inp) inp.value=pkg;
+  const m=document.getElementById('ddMenu'+id);
+  if(m) m.style.display='none';
+}
+
+function upSt(id,key,val){
+  const st=id==='A'?stA:stB;
+  st[key]=val;
+}
+
+function setWire(id,type){
+  const st=id==='A'?stA:stB;
+  st.wire=type;
+  const dSec=document.getElementById('diamSec'+id);
+  const sSec=document.getElementById('stripSec'+id);
+  if(type==='aluminumStrip'){
+    if(dSec) dSec.classList.add('hidden');
+    if(sSec) sSec.classList.remove('hidden');
+  } else {
+    if(dSec) dSec.classList.remove('hidden');
+    if(sSec) sSec.classList.add('hidden');
+  }
+  const parent=document.querySelector(`button[onclick="setWire('${id}','copper')"]`)?.closest('.card');
+  if(parent){
+    parent.querySelectorAll('.wire-btn').forEach(btn=>{
+      const k=btn.getAttribute('onclick').match(/'([^']+)'\)$/)[1];
+      btn.className='wire-btn'+(k===type?' w-'+k:'');
+    });
+  }
+}
+
+function doCalcR(id){
+  const st=id==='A'?stA:stB;
+  try{
+    const chipX=parseFloat(st.chipX)||0;
+    const chipY=parseFloat(st.chipY)||0;
+    const count=parseInt(st.count)||1;
+    const diam=st.wire!=='aluminumStrip'?parseFloat(st.diam)||0:null;
+    const sw=st.wire==='aluminumStrip'?parseFloat(st.w)||0:null;
+    const sh=st.wire==='aluminumStrip'?parseFloat(st.t)||0:null;
+    const res=calcR(st.pkg,chipX,chipY,st.wire,count,diam,sw,sh);
+    const area=document.getElementById('resArea');
+    if(!area) return;
+    if(st.compare){
+      const other=id==='A'?stB:stA;
+      const ox=parseFloat(other.chipX)||0,oy=parseFloat(other.chipY)||0;
+      const oc=parseInt(other.count)||1;
+      const od=other.wire!=='aluminumStrip'?parseFloat(other.diam)||0:null;
+      const ow=other.wire==='aluminumStrip'?parseFloat(other.w)||0:null;
+      const ot=other.wire==='aluminumStrip'?parseFloat(other.t)||0:null;
+      const resO=calcR(other.pkg,ox,oy,other.wire,oc,od,ow,ot);
+      area.innerHTML=id==='A'?showCompare(res,resO):showCompare(resO,res);
+    } else {
+      area.innerHTML=showSingle(res);
+    }
+  } catch(e){
+    const area=document.getElementById('resArea');
+    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} 计算错误：${e.message}</div>`;
+  }
+}
+
+function doCalcId(){
+  try{
+    const tj=parseFloat(stId.tjMax)||0,tc=parseFloat(stId.tc)||0;
+    const r25=parseFloat(stId.r25)||0,rjc=parseFloat(stId.rjc)||0;
+    if(tj<=tc) throw new Error('最大结温必须大于外壳温度');
+    if(r25<=0||rjc<=0) throw new Error('电阻和热阻必须大于 0');
+    const res=calcId(tj,r25,rjc,tc);
+    const area=document.getElementById('idRes');
+    if(area) area.innerHTML=showId(res);
+  } catch(e){
+    const area=document.getElementById('idRes');
+    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} 计算错误：${e.message}</div>`;
+  }
+}
+
+// ===================== 结果 HTML =====================
+function showSingle(r){
+  const fc=r.fusingCurrent;
+  return `
+  <div class="card anim" style="padding:24px">
+    <div class="sec-title">计算结果</div>
+    <div class="res-num-grid">
+      <div class="res-num-box blue-glow">
+        <div class="res-label">封装电阻</div>
+        <div class="res-val" style="color:#60a5fa">${(r.resistance*1e3).toFixed(3)}</div>
+        <div class="res-unit" style="color:#3b82f6">mΩ</div>
       </div>
-    `}function T(){return`
-      <div class="bg-slate-800/50 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/50 p-8 hidden" id="singleResults">
-        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          计算结果
-        </h2>
-        <div class="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 mb-4">
-          <div class="text-center">
-            <div class="text-slate-400 text-sm mb-2">封装电阻</div>
-            <div class="text-4xl font-bold text-white" id="resistanceResult">-- mΩ</div>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3" id="detailsGrid"></div>
-        <div class="mt-4 p-3 bg-slate-900/50 rounded-lg">
-          <p class="text-slate-400 text-xs"><span class="text-blue-400">R</span> = ρ × L / A (单位: mΩ)</p>
-        </div>
+      <div class="res-num-box orange-glow">
+        <div class="res-label">熔断极限电流</div>
+        <div class="res-val" style="color:#fb923c;font-size:${fc?'26px':'20px'}">${fc?fc.toFixed(2):'—'}</div>
+        ${fc?'<div class="res-unit" style="color:#f97316">A</div>':''}
       </div>
-    `}function I(){const e=R();return`
-      <div class="bg-slate-800/50 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/50 p-6" id="compareResults">
-        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-          对比结果
-        </h2>
+    </div>
+    <div class="divider"></div>
+    <div class="sec-title">详细参数</div>
+    <div>
+      <div class="detail-row"><span class="dk">材料</span><span class="dv">${r.details.material}</span></div>
+      <div class="detail-row"><span class="dk">打线根数</span><span class="dv">${r.details.wireCount} 根</span></div>
+      ${r.details.diameterMils!=null?`<div class="detail-row"><span class="dk">线径</span><span class="dv">${r.details.diameterMils} mils</span></div>`:''}
+      ${r.details.widthMils!=null?`<div class="detail-row"><span class="dk">铝带宽度</span><span class="dv">${r.details.widthMils} mils</span></div>`:''}
+      ${r.details.thicknessMils!=null?`<div class="detail-row"><span class="dk">铝带厚度</span><span class="dv">${r.details.thicknessMils} mils</span></div>`:''}
+      <div class="detail-row"><span class="dk">截面积</span><span class="dv">${r.details.crossSectionArea.toFixed(4)} mm²</span></div>
+      <div class="detail-row"><span class="dk">打线长度</span><span class="dv">${r.details.wireLength.toFixed(3)} mm</span></div>
+      <div class="detail-row"><span class="dk">单根电阻</span><span class="dv">${(r.details.singleWireResistance*1e3).toFixed(4)} mΩ</span></div>
+    </div>
+  </div>`;
+}
 
-        <div class="grid grid-cols-2 gap-4 mb-4">
-          <div class="bg-blue-600/10 rounded-xl p-4 border border-blue-500/30">
-            <div class="text-blue-400 text-sm font-medium mb-2 text-center">方案 A</div>
-            <div class="text-center">
-              <div class="text-3xl font-bold ${t.result?"text-white":"text-slate-500"}" id="resultA">${t.result?(t.result.resistance*1e3).toFixed(3):"--"} mΩ</div>
-              <div class="text-slate-400 text-xs mt-2" id="descA">${t.result?k(t.result):"-"}</div>
-            </div>
-          </div>
-
-          <div class="bg-purple-600/10 rounded-xl p-4 border border-purple-500/30">
-            <div class="text-purple-400 text-sm font-medium mb-2 text-center">方案 B</div>
-            <div class="text-center">
-              <div class="text-3xl font-bold ${l.result?"text-white":"text-slate-500"}" id="resultB">${l.result?(l.result.resistance*1e3).toFixed(3):"--"} mΩ</div>
-              <div class="text-slate-400 text-xs mt-2" id="descB">${l.result?k(l.result):"-"}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-slate-900/50 rounded-xl p-4">
-          <div class="text-center">
-            <div class="text-slate-400 text-sm mb-2">电阻差异</div>
-            <div class="text-2xl font-bold ${e.class}" id="diffResult">${e.text}</div>
-            <div class="text-slate-500 text-xs mt-2">${e.hint}</div>
-          </div>
-        </div>
+function showCompare(rA,rB){
+  const diff=(rA.resistance-rB.resistance)*1e3;
+  const pct=(Math.abs(diff)/Math.min(rA.resistance*1e3,rB.resistance*1e3)*100).toFixed(1);
+  const better=rA.resistance<rB.resistance?'A':'B';
+  return `
+  <div class="card anim" style="padding:24px">
+    <div class="sec-title">对比结果</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div class="res-num-box" style="border-color:${better==='A'?'rgba(59,130,246,.4)':'rgba(255,255,255,.06)'};background:${better==='A'?'rgba(59,130,246,.07)':'rgba(10,17,32,.55)'}">
+        <div style="font-size:10px;color:#60a5fa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">方案 A</div>
+        <div style="font-size:25px;font-weight:700;color:${better==='A'?'#60a5fa':'#64748b'};letter-spacing:-.02em">${(rA.resistance*1e3).toFixed(3)}</div>
+        <div style="font-size:10px;color:#3b82f6;margin-top:3px;font-weight:500">mΩ</div>
+        ${rA.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">极限电流 ${rA.fusingCurrent.toFixed(2)} A</div>`:''}
+        ${better==='A'?'<div><span class="winner-badge">✓ 更低阻值</span></div>':''}
       </div>
-    `}function k(e){let s="";return e.details.diameterMils?s=`${e.details.material} × ${e.details.wireCount}根 (φ${e.details.diameterMils}mils)`:e.details.widthMils&&e.details.thicknessMils?s=`${e.details.material} × ${e.details.wireCount}根 (${e.details.widthMils}×${e.details.thicknessMils}mils)`:s=`${e.details.material} × ${e.details.wireCount}根`,e.fusingCurrent&&(s+=` | 极限电流: ${e.fusingCurrent.toFixed(2)}A`),s}function R(){if(!t.result||!l.result)return{text:"--",class:"text-slate-500",hint:"请计算两侧的电阻值"};const e=t.result.resistance*1e3,n=l.result.resistance*1e3-e,a=(n/e*100).toFixed(1);return Math.abs(n)<.001?{text:"相等",class:"text-green-400",hint:"两种方案的电阻值相同"}:n>0?{text:`A 低 ${Math.abs(n).toFixed(3)} mΩ (${Math.abs(Number(a))}%)`,class:"text-blue-400",hint:"方案 A 电阻更低，更优"}:{text:`B 低 ${Math.abs(n).toFixed(3)} mΩ (${Math.abs(Number(a))}%)`,class:"text-purple-400",hint:"方案 B 电阻更低，更优"}}function _(){if(i)c(),m();else{const e=document.getElementById("calculateBtn");if(!e)return;const s=r!==null&&t.wireType!==null&&t.wireCount>0&&t.chipX>0&&t.chipY>0&&(t.wireType==="aluminumStrip"&&t.width>0&&t.thickness>0||t.wireType!=="aluminumStrip"&&t.diameter>0);e.disabled=!s}}function c(){const e=document.getElementById("calculateABtn");if(!e)return;const s=r!==null&&t.wireType!==null&&t.wireCount>0&&t.chipX>0&&t.chipY>0&&(t.wireType==="aluminumStrip"&&t.width>0&&t.thickness>0||t.wireType!=="aluminumStrip"&&t.diameter>0);e.disabled=!s}function m(){const e=document.getElementById("calculateBBtn");if(!e)return;const s=r!==null&&l.wireType!==null&&l.wireCount>0&&l.chipX>0&&l.chipY>0&&(l.wireType==="aluminumStrip"&&l.width>0&&l.thickness>0||l.wireType!=="aluminumStrip"&&l.diameter>0);e.disabled=!s}function $(e,s){const n=document.getElementById(e),a=document.querySelector(`.${e}Filter`),p=document.querySelector(`.${e}Dropdown`),u=document.querySelector(`.${e}List`),f=n?.parentElement?.querySelector(".dropdown-arrow");if(!n||!a||!p||!u)return;function o(v=""){const X=Object.keys(P).filter(S=>S.toLowerCase().includes(v.toLowerCase()));if(X.length===0){u.innerHTML='<div class="px-4 py-3 text-slate-500 text-sm">未找到匹配的封装类型</div>';return}u.innerHTML=X.map(S=>`<div class="${e}Option px-4 py-2 cursor-pointer text-slate-300 hover:bg-slate-700 text-sm" data-value="${S}">${S}</div>`).join(""),u.querySelectorAll(`.${e}Option`).forEach(S=>{S.addEventListener("click",V=>{const z=V.currentTarget.dataset.value||"";s(z),C()})})}function F(){p.classList.remove("hidden"),f&&(f.style.transform="rotate(180deg)"),a.value="",o(),setTimeout(()=>a.focus(),50)}function C(){p.classList.add("hidden"),f&&(f.style.transform="rotate(0deg)")}n.addEventListener("focus",v=>{v.preventDefault(),F()}),n.addEventListener("click",F),a.addEventListener("input",v=>{o(v.target.value)}),a.addEventListener("keydown",v=>{v.key==="Escape"&&(C(),a.blur())}),document.addEventListener("click",v=>{const B=v.target;!B.closest(`.${e}Dropdown`)&&!B.closest(`#${e}`)&&C()}),o()}function E(e,s,n){const a=document.querySelectorAll(`.${e}WireBtn`);a.forEach(p=>{p.addEventListener("click",u=>{const f=u.currentTarget.dataset.value;a.forEach(B=>{B.classList.remove("border-blue-500","text-blue-400","bg-blue-500/10","border-purple-500","text-purple-400","bg-purple-500/10"),B.classList.add("border-slate-600","text-slate-300")});const o=e==="a"?"border-blue-500":"border-purple-500",F=e==="a"?"text-blue-400":"text-purple-400",C=e==="a"?"bg-blue-500/10":"bg-purple-500/10";u.currentTarget.classList.remove("border-slate-600","text-slate-300"),u.currentTarget.classList.add(o,F,C),s.wireType=f,s.wireCount=1,s.diameter=0,s.width=0,s.thickness=0;const v=document.getElementById(n);v&&(v.innerHTML=h(e,s),M(e,s)),i?e==="a"?c():m():_()})})}function O(e,s){const n=document.getElementById(`${e}ChipX`),a=document.getElementById(`${e}ChipY`);n?.addEventListener("input",p=>{s.chipX=parseFloat(p.target.value)||0,i?e==="a"?c():m():_()}),a?.addEventListener("input",p=>{s.chipY=parseFloat(p.target.value)||0,i?e==="a"?c():m():_()})}function M(e,s,n){const a=document.getElementById(`${e}WireCount`),p=document.getElementById(`${e}Diameter`),u=document.getElementById(`${e}StripWidth`),f=document.getElementById(`${e}StripThickness`);a?.addEventListener("input",o=>{s.wireCount=parseInt(o.target.value)||1,i?e==="a"?c():m():_()}),p?.addEventListener("input",o=>{s.diameter=parseFloat(o.target.value)||0,i?e==="a"?c():m():_()}),u?.addEventListener("input",o=>{s.width=parseFloat(o.target.value)||0,i?e==="a"?c():m():_()}),f?.addEventListener("input",o=>{s.thickness=parseFloat(o.target.value)||0,i?e==="a"?c():m():_()})}function j(e){const s=document.getElementById("singleResults"),n=document.getElementById("resistanceResult"),a=document.getElementById("detailsGrid");if(!s||!n||!a)return;const p=(e.resistance*1e3).toFixed(3);n.textContent=`${p} mΩ`;let u="";e.details.diameterMils?u=`<div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">直径</div><div class="text-white font-medium">${e.details.diameterMils} mils</div></div>`:e.details.widthMils&&e.details.thicknessMils&&(u=`<div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">宽度 × 厚度</div><div class="text-white font-medium">${e.details.widthMils} × ${e.details.thicknessMils} mils</div></div>`);const f=e.details.material==="铝带"?e.details.ribbonLength.toFixed(3):e.details.wireLength.toFixed(3),o=e.fusingCurrent?`<div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">极限电流</div><div class="text-white font-medium">${e.fusingCurrent.toFixed(2)} A</div></div>`:"";a.innerHTML=`
-      <div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">材料</div><div class="text-white font-medium">${e.details.material}</div></div>
-      ${u}
-      <div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">打线数量</div><div class="text-white font-medium">${e.details.wireCount} 根</div></div>
-      <div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">打线长度</div><div class="text-white font-medium">${f} mm</div></div>
-      <div class="bg-slate-900/30 rounded-lg p-3"><div class="text-slate-400 text-xs">单根电阻</div><div class="text-white font-medium">${(e.details.singleWireResistance*1e3).toFixed(4)} mΩ</div></div>
-      ${o}
-    `,s.classList.remove("hidden")}function N(){const e=document.getElementById("resultsSection");e&&(e.innerHTML=I(),W())}function W(){const e=document.getElementById("calculateABtn"),s=document.getElementById("calculateBBtn");e?.addEventListener("click",()=>{if(!r||!t.wireType)return;const n=D(r,t.wireType,t.wireCount,t.chipX,t.chipY,t.diameter,t.width,t.thickness);n&&(t.result=n,N())}),s?.addEventListener("click",()=>{if(!r||!l.wireType)return;const n=D(r,l.wireType,l.wireCount,l.chipX,l.chipY,l.diameter,l.width,l.thickness);n&&(l.result=n,N())})}function G(){if(document.querySelectorAll(".mode-btn").forEach(e=>{e.addEventListener("click",s=>{i=s.currentTarget.dataset.mode==="compare",t.wireType=null,t.wireCount=1,t.chipX=0,t.chipY=0,t.diameter=0,t.width=0,t.thickness=0,t.result=null,l.wireType=null,l.wireCount=1,l.chipX=0,l.chipY=0,l.diameter=0,l.width=0,l.thickness=0,l.result=null,r=null,d()})}),i?$("comparePackage",e=>{r=e;const s=document.getElementById("comparePackage");s&&(s.value=e),c(),m()}):$("packageSearch",e=>{r=e;const s=document.getElementById("packageSearch");s&&(s.value=e),_()}),i){E("a",t,"inputSectionA"),E("b",l,"inputSectionB"),O("a",t),O("b",l);const e=document.getElementById("inputSectionA"),s=document.getElementById("inputSectionB");e&&M("a",t),s&&M("b",l),W()}else E("",t,"inputSection"),O("",t),document.getElementById("inputSection")&&M("",t),document.getElementById("calculateBtn")?.addEventListener("click",()=>{if(!r||!t.wireType)return;const n=D(r,t.wireType,t.wireCount,t.chipX,t.chipY,t.diameter,t.width,t.thickness);n&&j(n)})}d()}function J(){U()}J();
-    </script>
-  
+      <div class="res-num-box" style="border-color:${better==='B'?'rgba(192,132,252,.4)':'rgba(255,255,255,.06)'};background:${better==='B'?'rgba(139,92,246,.07)':'rgba(10,17,32,.55)'}">
+        <div style="font-size:10px;color:#c084fc;font-weight:700;letter-spacing:.06em;margin-bottom:8px">方案 B</div>
+        <div style="font-size:25px;font-weight:700;color:${better==='B'?'#c084fc':'#64748b'};letter-spacing:-.02em">${(rB.resistance*1e3).toFixed(3)}</div>
+        <div style="font-size:10px;color:#a855f7;margin-top:3px;font-weight:500">mΩ</div>
+        ${rB.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">极限电流 ${rB.fusingCurrent.toFixed(2)} A</div>`:''}
+        ${better==='B'?'<div><span class="winner-badge">✓ 更低阻值</span></div>':''}
+      </div>
+    </div>
+    <div class="diff-bar">
+      <div style="font-size:10px;color:#334155;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;font-weight:600">电阻差异</div>
+      <div class="diff-val">${Math.abs(diff).toFixed(3)} mΩ</div>
+      <div class="diff-hint">${pct}% · 方案 ${better} 阻值更低</div>
+    </div>
+  </div>`;
+}
 
-<div id="html-editor-renderer-root" style="position: fixed; top: 0px; left: 0px;"></div></body></html>
+function showId(r){
+  const d=r.details;
+  return `
+  <div class="card anim" style="padding:24px">
+    <div class="sec-title">计算结果</div>
+    <div class="id-result-hero">
+      <div class="id-hero-label">器件 ID 范围</div>
+      <div class="id-hero-val grad-green">${r.idMin.toFixed(2)} ~ ${r.idMax.toFixed(2)}</div>
+      <div class="id-hero-unit">Ampere (A)</div>
+    </div>
+    <div class="divider"></div>
+    <div class="sec-title">计算过程</div>
+    <div class="code-block">
+      <div>ΔT &nbsp;&nbsp;&nbsp;&nbsp;= TjMax − Tc = <span class="code-var">${d.deltaT} °C</span></div>
+      <div>Rhot_min = R25 × 2.2 = <span class="code-var">${d.rHotMin.toFixed(2)} mΩ</span></div>
+      <div>Rhot_max = R25 × 2.7 = <span class="code-var">${d.rHotMax.toFixed(2)} mΩ</span></div>
+      <div style="height:1px;background:rgba(255,255,255,.05);margin:6px 0"></div>
+      <div>ID_max = √(${d.deltaT}×1000 / (${d.rjc}×${d.rHotMin.toFixed(2)})) = <span class="code-result">${r.idMax.toFixed(2)} A</span></div>
+      <div>ID_min = √(${d.deltaT}×1000 / (${d.rjc}×${d.rHotMax.toFixed(2)})) = <span class="code-result">${r.idMin.toFixed(2)} A</span></div>
+    </div>
+  </div>`;
+}
+
+// 点击外部关闭下拉框
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.dd-wrap')){
+    document.querySelectorAll('.dd-menu').forEach(el=>el.style.display='none');
+  }
+});
+
+// 初始化
+goHome();
+</script>
+</body>
+</html>
