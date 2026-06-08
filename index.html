@@ -4,10 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MOS器件计算工具</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
     /* ===== 基础重置 ===== */
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{font-size:16px;-webkit-text-size-adjust:100%}
+    html{font-size:17px;-webkit-text-size-adjust:100%}
     body{
       font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       background:#080e1d;
@@ -64,7 +65,7 @@
     .grad-green{background:linear-gradient(135deg,#34d399,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
     /* ===== 标题区 ===== */
-    .page-header{text-align:center;margin-bottom:44px}
+    .page-header{text-align:center;margin-bottom:44px;position:relative}
     .badge-pill{
       display:inline-flex;align-items:center;gap:8px;
       padding:5px 16px;
@@ -77,8 +78,32 @@
     .page-title{font-size:38px;font-weight:700;letter-spacing:-.025em;line-height:1.15;color:#f1f5f9;margin-bottom:10px}
     .page-sub{font-size:14px;color:#4b5f7c;font-weight:400}
 
+    /* ===== 语言选择器 ===== */
+    .lang-wrap{position:absolute;top:0;right:0;z-index:10}
+    .lang-btn{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:6px 14px;background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);border-radius:8px;
+      color:#94a3b8;font-size:12px;font-weight:500;transition:all .2s;
+    }
+    .lang-btn:hover{background:rgba(255,255,255,.1);color:#e2e8f0}
+    .lang-menu{
+      position:absolute;top:100%;right:0;margin-top:6px;
+      background:#0c1526;border:1px solid rgba(255,255,255,.1);border-radius:10px;
+      box-shadow:0 16px 40px rgba(0,0,0,.6);overflow:hidden;display:none;min-width:130px;
+    }
+    .lang-menu.show{display:block}
+    .lang-item{
+      padding:9px 16px;font-size:13px;color:#94a3b8;cursor:pointer;transition:all .15s;
+      display:flex;align-items:center;gap:8px;
+    }
+    .lang-item:hover{background:rgba(59,130,246,.1);color:#93c5fd}
+    .lang-item.active{color:#60a5fa;background:rgba(59,130,246,.08)}
+    .lang-item .dot{width:6px;height:6px;border-radius:50%;background:#60a5fa;opacity:0}
+    .lang-item.active .dot{opacity:1}
+
     /* ===== 模块卡片网格 ===== */
-    .module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:760px;margin:0 auto}
+    .module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:820px;margin:0 auto}
     .module-card{padding:28px;cursor:pointer;position:relative;overflow:hidden}
     .module-card .glow-bg{
       position:absolute;top:-50px;right:-50px;width:130px;height:130px;
@@ -141,6 +166,8 @@
     }
     .inp:focus{border-color:rgba(59,130,246,.55);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
     .inp::placeholder{color:#334155}
+    select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+    select.inp option{background:#0f1729;color:#e2e8f0}
 
     /* ===== 打线类型按钮 ===== */
     .wire-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -288,7 +315,63 @@
     .mb4{margin-bottom:4px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
     .mb16{margin-bottom:16px}.mb20{margin-bottom:20px}.mb24{margin-bottom:24px}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+
+    /* ===== 硅材料电阻率计算模块 ===== */
+    .doping-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .doping-btn{
+      padding:8px 4px;border-radius:9px;font-size:12px;font-weight:500;text-align:center;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(10,17,32,.4);color:#4b5f7c;
+      transition:all .2s ease;cursor:pointer;
+    }
+    .doping-btn:hover{border-color:rgba(16,185,129,.4);color:#6ee7b7;background:rgba(16,185,129,.08)}
+    .doping-btn.active-n{border-color:rgba(59,130,246,.55);background:rgba(59,130,246,.12);color:#60a5fa;box-shadow:0 0 10px rgba(59,130,246,.15)}
+    .doping-btn.active-p{border-color:rgba(251,146,60,.55);background:rgba(251,146,60,.12);color:#fb923c;box-shadow:0 0 10px rgba(251,146,60,.15)}
+    .unit-toggle{display:inline-flex;background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:3px;gap:2px}
+    .unit-btn{padding:5px 12px;border-radius:6px;font-size:11.5px;font-weight:500;color:#4b5f7c;background:transparent;transition:all .2s ease;cursor:pointer}
+    .unit-btn.active{background:rgba(16,185,129,.2);color:#6ee7b7;box-shadow:0 0 8px rgba(16,185,129,.1)}
+    .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .res-box{
+      background:rgba(10,17,32,.55);border:1px solid rgba(255,255,255,.06);
+      border-radius:13px;padding:16px;text-align:center;
+    }
+    .res-box.green-border{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.04)}
+    .res-box.blue-border{border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.04)}
+    .res-box.orange-border{border-color:rgba(251,146,60,.2);background:rgba(251,146,60,.04)}
+    .res-value{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+    .res-unit{font-size:11px;font-weight:500;margin-top:3px;color:#64748b}
+    .chart-wrap{
+      background:rgba(10,17,32,.4);border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;padding:16px;margin-bottom:16px;position:relative;
+    }
+    .chart-title{font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .rho-unit-toggle{display:inline-flex;margin-top:6px}
+    .rho-unit-btn{
+      padding:3px 10px;border-radius:5px;font-size:10.5px;font-weight:500;
+      color:#4b5f7c;background:transparent;transition:all .2s;cursor:pointer;
+      border:1px solid transparent;
+    }
+    .rho-unit-btn.active{background:rgba(16,185,129,.15);color:#6ee7b7;border-color:rgba(16,185,129,.25)}
     .hidden{display:none!important}
+
+    /* ===== Wafer Die Calculator 模块 ===== */
+    .wafer-canvas-wrap{
+      background:rgba(10,17,32,.45);border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;padding:16px;display:flex;justify-content:center;align-items:center;
+      margin-bottom:16px;position:relative;
+    }
+    .wafer-canvas-wrap canvas{max-width:100%;height:auto!important}
+    .wafer-legend{display:flex;gap:16px;justify-content:center;margin-top:10px}
+    .wafer-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b}
+    .wafer-legend-dot{width:10px;height:10px;border-radius:2px}
+    .wafer-result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+    .wafer-result-box{
+      background:rgba(10,17,32,.55);border:1px solid rgba(255,255,255,.06);
+      border-radius:11px;padding:14px;text-align:center;
+    }
+    .wafer-result-box.purple-glow{border-color:rgba(168,85,247,.2);background:rgba(168,85,247,.05)}
+    .wafer-result-box.green-glow{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.05)}
+    .wafer-result-box.blue-glow{border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.05)}
   </style>
 </head>
 <body>
@@ -352,7 +435,307 @@ const MNAME={copper:'铜线',aluminum:'铝线',gold:'金线',aluminumStrip:'铝�
 let mode='home';
 const stA={pkg:'TO-220-2L/3L',chipX:'3',chipY:'3',wire:'copper',count:'1',diam:'12',w:'40',t:'3.9',compare:false};
 const stB={pkg:'TO-220-2L/3L',chipX:'3',chipY:'3',wire:'aluminum',count:'1',diam:'12',w:'40',t:'3.9',compare:false};
-const stId={tjMax:'175',r25:'10',rjc:'1',tc:'25'};
+const stId={tjMax:'175',r25:'10',rjc:'1',tc:'25',idMode:'fwd',idCurrent:''};
+const stResistivity = {
+  dopantType: 'n-phosphorus',
+  concentration: '1e16',
+  concentrationUnit: 'cm3',
+  temperature: '300',
+  thickness: '10',
+  thicknessUnit: 'um',
+  resistivityUnit: 'ohm_cm',
+  siMode: 'fwd',
+  rhoInput: '',
+  rhoInputUnit: 'ohm_cm'
+};
+const stWafer = {
+  waferSize: '6', waferSize2: '8',
+  dieX: '3.25', dieY: '3.25',
+  dieX2: '2.80', dieY2: '2.80',
+  dieUnit: 'mm',
+  sawStreet: '0.06', edgeExclusion: '3', yieldPct: '100',
+  sawStreet2: '0.06', edgeExclusion2: '3', yieldPct2: '100',
+  waferMode: 'single'  // 'single' or 'compare'
+};
+
+// ===================== 语言系统 =====================
+let curLang = 'zh-CN';
+const LANG_LIST = [
+  {code:'zh-CN',label:'简体中文'},
+  {code:'zh-TW',label:'繁體中文'},
+  {code:'en',label:'English'},
+  {code:'ja',label:'日本語'},
+  {code:'ko',label:'한국어'}
+];
+const T = {
+  'zh-CN': {
+    badge:'MOS Device Toolkit',
+    h_t1:'MOS 器件',h_t2:'计算工具',h_sub:'选择功能模块开始计算',
+    c1_t:'封装电阻计算',c1_d:'计算打线电阻与极限电流',
+    c1_f1:'支持 47 种封装',c1_f2:'铜 / 铝 / 金 / 铝带',c1_f3:'自动计算电阻',c1_f4:'熔断极限电流',
+    c2_t:'ID 电流计算',c2_d:'计算器件最大工作电流',
+    c2_f1:'输入结温 / 电阻 / 热阻',c2_f2:'计算 ID 范围',c2_f3:'基于热特性公式',c2_f4:'考虑高温电阻变化',
+    c3_t:'硅材料参数计算',c3_d:'电阻率 · 掺杂浓度 · 迁移率',
+    c3_f1:'N型 / P型硅',c3_f2:'电阻率 ↔ 掺杂浓度',c3_f3:'Caughey-Thomas 模型',c3_f4:'图表可视化',
+    footer:'封装参数持续更新 · 支持更多规格',
+    back:'返回主页',
+    r_t:'封装电阻计算',r_sub:'打线电阻 · 极限电流',
+    m_single:'单个计算',m_compare:'对比模式',
+    scheme:'方案',
+    pkg_type:'封装类型',chip_x:'芯片长度 X (mm)',chip_y:'芯片宽度 Y (mm)',
+    wire_type:'打线方式',wire_copper:'铜线',wire_aluminum:'铝线',wire_gold:'金线',wire_strip:'铝带',
+    wire_count:'打线根数',wire_diam:'打线直径 (mils)',strip_w:'铝带宽度 (mils)',strip_t:'铝带厚度 (mils)',
+    calc_res:'计算封装电阻',
+    result:'计算结果',pkg_res:'封装电阻',fuse_cur:'熔断极限电流',
+    detail:'详细参数',mat:'材料',wlen:'打线长度',area:'截面积',single_r:'单根电阻',
+    cmp_result:'对比结果',res_diff:'电阻差异',lower:'更低阻值',r_copy_a:'复制方案A',
+    id_t:'ID 电流计算',id_sub:'基于热特性的电流分析',
+    formula:'计算公式',input_p:'输入参数',
+    tj:'最大结温 TjMax (°C)',tc:'外壳温度 Tc (°C)',r25:'常温电阻 R25 (mΩ)',rjc:'热阻 RJC (°C/W)',
+    calc_id:'计算 ID 电流',id_range:'器件 ID 范围',calc_proc:'计算过程',
+    hot_r:'高温电阻范围',id_info:'返回 ID 范围：最小值（×2.7）~ 最大值（×2.2）',
+    id_fwd:'正算 ID',id_rev:'反算 RJC',id_in:'输入电流 ID (A)',calc_rjc:'计算热阻 RJC',rjc_result:'热阻 RJC',rjc_range:'RJC 范围',
+    si_fwd:'浓度→电阻率',si_rev:'电阻率→浓度',rho_in:'输入电阻率 ρ',rho_in_unit:'单位',calc_conc:'计算掺杂浓度',
+    err_rho:'请输入有效的电阻率',err_rho_range:'电阻率范围超出计算范围',
+    si_t:'硅材料参数计算',si_sub:'电阻率 · 掺杂浓度 · 迁移率',
+    dop_type:'掺杂类型',
+    dop_np:'N型（P）',dop_na:'N型（As）',dop_ns:'N型（Sb）',dop_pb:'P型（B）',
+    conc:'掺杂浓度',unit:'单位',temp:'温度 T (K)',
+    thick:'外延层厚度',opt:'可选',
+    calc_si:'计算材料参数',
+    rho:'电阻率 ρ',sigma:'导电率 σ',mu_n:'电子迁移率 μₙ',mu_p:'空穴迁移率 μₚ',
+    carrier_n:'电子浓度 n',carrier_p:'空穴浓度 p',sheet_r:'片电阻 Rs',
+    chart_rho:'电阻率 vs 掺杂浓度',chart_mu:'迁移率 vs 掺杂浓度',chart_temp:'电阻率 vs 温度',
+    conc_axis:'掺杂浓度 (cm⁻³)',rho_axis:'电阻率 ρ (Ω·cm)',mu_axis:'迁移率 (cm²/V·s)',temp_axis:'温度 (K)',
+    err_conc:'请输入有效的掺杂浓度',err_range:'掺杂浓度范围: 10¹² ~ 10²¹ cm⁻³',err_temp:'温度范围: 200 ~ 500 K',
+    c4_t:'晶圆颗粒数计算',c4_d:'Gross Die · Net Die · 利用率',
+    c4_f1:'4~12 inch 晶圆',c4_f2:'自定义 Die 尺寸',c4_f3:'切割道 & 边缘排除',c4_f4:'晶圆可视化',
+    w_t:'晶圆颗粒数计算',w_sub:'Gross Die · Net Die · 利用率',
+    w_wafer:'晶圆尺寸',w_4in:'4 inch',w_5in:'5 inch',w_6in:'6 inch',w_8in:'8 inch',w_12in:'12 inch',
+    w_die:'Die 尺寸',w_die_x:'Die X',w_die_y:'Die Y',w_saw:'切割道宽度',w_edge:'边缘排除',
+    w_yield:'良率 Yield (%)',w_calc:'计算颗粒数',
+    w_diam:'晶圆直径',w_eff_diam:'有效直径',w_die_size:'Die 尺寸',w_saw_w:'切割道',
+    w_gross:'Gross Die',w_net:'Net Die',w_util:'利用率',
+    w_err_die:'请输入有效的 Die 尺寸',w_err_saw:'请输入有效的切割道宽度',w_err_yield:'良率范围: 0~100',
+    w_legend_in:'有效区域',w_legend_out:'边缘排除',w_die_unit:'Die 尺寸单位',
+    w_die_note:'（不包含切割道）',w_mode_single:'单模式',w_mode_compare:'对比模式',
+    w_set_a:'方案A',w_set_b:'方案B',w_copy_a:'复制方案A',w_compare_note:'对比两组 Die 尺寸的输出差异',
+  },
+  'zh-TW': {
+    badge:'MOS Device Toolkit',
+    h_t1:'MOS 器件',h_t2:'計算工具',h_sub:'選擇功能模組開始計算',
+    c1_t:'封裝電阻計算',c1_d:'計算打線電阻與極限電流',
+    c1_f1:'支援 47 種封裝',c1_f2:'銅 / 鋁 / 金 / 鋁帶',c1_f3:'自動計算電阻',c1_f4:'熔斷極限電流',
+    c2_t:'ID 電流計算',c2_d:'計算器件最大工作電流',
+    c2_f1:'輸入結溫 / 電阻 / 熱阻',c2_f2:'計算 ID 範圍',c2_f3:'基於熱特性公式',c2_f4:'考慮高溫電阻變化',
+    c3_t:'矽材料參數計算',c3_d:'電阻率 · 摻雜濃度 · 遷移率',
+    c3_f1:'N型 / P型矽',c3_f2:'電阻率 ↔ 摻雜濃度',c3_f3:'Caughey-Thomas 模型',c3_f4:'圖表視覺化',
+    footer:'封裝參數持續更新 · 支援更多規格',
+    back:'返回主頁',
+    r_t:'封裝電阻計算',r_sub:'打線電阻 · 極限電流',
+    m_single:'單個計算',m_compare:'對比模式',
+    scheme:'方案',
+    pkg_type:'封裝類型',chip_x:'晶片長度 X (mm)',chip_y:'晶片寬度 Y (mm)',
+    wire_type:'打線方式',wire_copper:'銅線',wire_aluminum:'鋁線',wire_gold:'金線',wire_strip:'鋁帶',
+    wire_count:'打線根數',wire_diam:'打線直徑 (mils)',strip_w:'鋁帶寬度 (mils)',strip_t:'鋁帶厚度 (mils)',
+    calc_res:'計算封裝電阻',
+    result:'計算結果',pkg_res:'封裝電阻',fuse_cur:'熔斷極限電流',
+    detail:'詳細參數',mat:'材料',wlen:'打線長度',area:'截面積',single_r:'單根電阻',
+    cmp_result:'對比結果',res_diff:'電阻差異',lower:'更低阻值',r_copy_a:'複製方案A',
+    id_t:'ID 電流計算',id_sub:'基於熱特性的電流分析',
+    formula:'計算公式',input_p:'輸入參數',
+    tj:'最大結溫 TjMax (°C)',tc:'外殼溫度 Tc (°C)',r25:'常溫電阻 R25 (mΩ)',rjc:'熱阻 RJC (°C/W)',
+    calc_id:'計算 ID 電流',id_range:'器件 ID 範圍',calc_proc:'計算過程',
+    hot_r:'高溫電阻範圍',id_info:'返回 ID 範圍：最小值（×2.7）~ 最大值（×2.2）',
+    id_fwd:'正算 ID',id_rev:'反算 RJC',id_in:'輸入電流 ID (A)',calc_rjc:'計算熱阻 RJC',rjc_result:'熱阻 RJC',rjc_range:'RJC 範圍',
+    si_fwd:'濃度→電阻率',si_rev:'電阻率→濃度',rho_in:'輸入電阻率 ρ',rho_in_unit:'單位',calc_conc:'計算摻雜濃度',
+    err_rho:'請輸入有效的電阻率',err_rho_range:'電阻率範圍超出計算範圍',
+    si_t:'矽材料參數計算',si_sub:'電阻率 · 摻雜濃度 · 遷移率',
+    dop_type:'摻雜類型',
+    dop_np:'N型（P）',dop_na:'N型（As）',dop_ns:'N型（Sb）',dop_pb:'P型（B）',
+    conc:'摻雜濃度',unit:'單位',temp:'溫度 T (K)',
+    thick:'外延層厚度',opt:'可選',
+    calc_si:'計算材料參數',
+    rho:'電阻率 ρ',sigma:'導電率 σ',mu_n:'電子遷移率 μₙ',mu_p:'電洞遷移率 μₚ',
+    carrier_n:'電子濃度 n',carrier_p:'電洞濃度 p',sheet_r:'片電阻 Rs',
+    chart_rho:'電阻率 vs 摻雜濃度',chart_mu:'遷移率 vs 摻雜濃度',chart_temp:'電阻率 vs 溫度',
+    conc_axis:'摻雜濃度 (cm⁻³)',rho_axis:'電阻率 ρ (Ω·cm)',mu_axis:'遷移率 (cm²/V·s)',temp_axis:'溫度 (K)',
+    err_conc:'請輸入有效的摻雜濃度',err_range:'摻雜濃度範圍: 10¹² ~ 10²¹ cm⁻³',err_temp:'溫度範圍: 200 ~ 500 K',
+    c4_t:'晶圓顆粒數計算',c4_d:'Gross Die · Net Die · 利用率',
+    c4_f1:'4~12 inch 晶圓',c4_f2:'自訂 Die 尺寸',c4_f3:'切割道 & 邊緣排除',c4_f4:'晶圓視覺化',
+    w_t:'晶圓顆粒數計算',w_sub:'Gross Die · Net Die · 利用率',
+    w_wafer:'晶圓尺寸',w_4in:'4 inch',w_5in:'5 inch',w_6in:'6 inch',w_8in:'8 inch',w_12in:'12 inch',
+    w_die:'Die 尺寸',w_die_x:'Die X',w_die_y:'Die Y',w_saw:'切割道寬度',w_edge:'邊緣排除',
+    w_yield:'良率 Yield (%)',w_calc:'計算顆粒數',
+    w_diam:'晶圓直徑',w_eff_diam:'有效直徑',w_die_size:'Die 尺寸',w_saw_w:'切割道',
+    w_gross:'Gross Die',w_net:'Net Die',w_util:'利用率',
+    w_err_die:'請輸入有效的 Die 尺寸',w_err_saw:'請輸入有效的切割道寬度',w_err_yield:'良率範圍: 0~100',
+    w_legend_in:'有效區域',w_legend_out:'邊緣排除',w_die_unit:'Die 尺寸單位',
+    w_die_note:'（不包含切割道）',w_mode_single:'單模式',w_mode_compare:'對比模式',
+    w_set_a:'方案A',w_set_b:'方案B',w_copy_a:'複製方案A',w_compare_note:'對比兩組 Die 尺寸的輸出差異',
+  },
+  'en': {
+    badge:'MOS Device Toolkit',
+    h_t1:'MOS Device',h_t2:'Calculator',h_sub:'Select a module to start',
+    c1_t:'Package Resistance',c1_d:'Wire bond resistance & fusing current',
+    c1_f1:'47 package types',c1_f2:'Cu / Al / Au / Al strip',c1_f3:'Auto resistance calc',c1_f4:'Fusing current',
+    c2_t:'ID Current',c2_d:'Max operating current calculation',
+    c2_f1:'Junction temp / resistance',c2_f2:'ID range calc',c2_f3:'Thermal formula',c2_f4:'Hot resistance factor',
+    c3_t:'Silicon Parameters',c3_d:'Resistivity · Doping · Mobility',
+    c3_f1:'N-type / P-type Si',c3_f2:'Resistivity ↔ Doping',c3_f3:'Caughey-Thomas Model',c3_f4:'Chart visualization',
+    footer:'Package params updated · More specs supported',
+    back:'Back',
+    r_t:'Package Resistance',r_sub:'Wire resistance · Fusing current',
+    m_single:'Single',m_compare:'Compare',
+    scheme:'Scheme',
+    pkg_type:'Package type',chip_x:'Chip length X (mm)',chip_y:'Chip width Y (mm)',
+    wire_type:'Wire type',wire_copper:'Copper',wire_aluminum:'Aluminum',wire_gold:'Gold',wire_strip:'Al strip',
+    wire_count:'Wire count',wire_diam:'Wire diameter (mils)',strip_w:'Strip width (mils)',strip_t:'Strip thickness (mils)',
+    calc_res:'Calculate Resistance',
+    result:'Result',pkg_res:'Package resistance',fuse_cur:'Fusing current',
+    detail:'Details',mat:'Material',wlen:'Wire length',area:'Cross-section',single_r:'Single wire R',
+    cmp_result:'Comparison',res_diff:'Resistance diff',lower:'Lower resistance',r_copy_a:'Copy Scheme A',
+    id_t:'ID Current',id_sub:'Thermal-based current analysis',
+    formula:'Formula',input_p:'Parameters',
+    tj:'Max junction temp TjMax (°C)',tc:'Case temp Tc (°C)',r25:'R25 at 25°C (mΩ)',rjc:'Thermal resistance RJC (°C/W)',
+    calc_id:'Calculate ID',id_range:'ID range',calc_proc:'Calculation',
+    hot_r:'Hot resistance range',id_info:'ID range: min (×2.7) ~ max (×2.2)',
+    id_fwd:'Calc ID',id_rev:'Calc RJC',id_in:'Input current ID (A)',calc_rjc:'Calculate RJC',rjc_result:'Thermal resistance RJC',rjc_range:'RJC range',
+    si_fwd:'Conc→ρ',si_rev:'ρ→Conc',rho_in:'Input resistivity ρ',rho_in_unit:'Unit',calc_conc:'Calculate Doping',
+    err_rho:'Enter a valid resistivity',err_rho_range:'Resistivity out of range',
+    si_t:'Silicon Parameters',si_sub:'Resistivity · Doping · Mobility',
+    dop_type:'Dopant type',
+    dop_np:'N-type (P)',dop_na:'N-type (As)',dop_ns:'N-type (Sb)',dop_pb:'P-type (B)',
+    conc:'Doping concentration',unit:'Unit',temp:'Temperature T (K)',
+    thick:'Epi layer thickness',opt:'optional',
+    calc_si:'Calculate Parameters',
+    rho:'Resistivity ρ',sigma:'Conductivity σ',mu_n:'Electron mobility μₙ',mu_p:'Hole mobility μₚ',
+    carrier_n:'Electron conc. n',carrier_p:'Hole conc. p',sheet_r:'Sheet resistance Rs',
+    chart_rho:'Resistivity vs Doping',chart_mu:'Mobility vs Doping',chart_temp:'Resistivity vs Temperature',
+    conc_axis:'Doping concentration (cm⁻³)',rho_axis:'Resistivity ρ (Ω·cm)',mu_axis:'Mobility (cm²/V·s)',temp_axis:'Temperature (K)',
+    err_conc:'Enter a valid doping concentration',err_range:'Doping range: 10¹² ~ 10²¹ cm⁻³',err_temp:'Temperature range: 200 ~ 500 K',
+    c4_t:'Wafer Die Calculator',c4_d:'Gross Die · Net Die · Utilization',
+    c4_f1:'4~12 inch wafers',c4_f2:'Custom die size',c4_f3:'Saw street & edge exclusion',c4_f4:'Wafer visualization',
+    w_t:'Wafer Die Calculator',w_sub:'Gross Die · Net Die · Utilization',
+    w_wafer:'Wafer Size',w_4in:'4 inch',w_5in:'5 inch',w_6in:'6 inch',w_8in:'8 inch',w_12in:'12 inch',
+    w_die:'Die Size',w_die_x:'Die X',w_die_y:'Die Y',w_saw:'Saw Street Width',w_edge:'Edge Exclusion',
+    w_yield:'Yield (%)',w_calc:'Calculate Dies',
+    w_diam:'Wafer Diameter',w_eff_diam:'Effective Diameter',w_die_size:'Die Size',w_saw_w:'Saw Street',
+    w_gross:'Gross Die',w_net:'Net Die',w_util:'Utilization',
+    w_err_die:'Enter a valid die size',w_err_saw:'Enter a valid saw street width',w_err_yield:'Yield range: 0~100',
+    w_legend_in:'Active area',w_legend_out:'Edge exclusion',w_die_unit:'Die size unit',
+    w_die_note:'(excl. saw street)',w_mode_single:'Single',w_mode_compare:'Compare',
+    w_set_a:'Scheme A',w_set_b:'Scheme B',w_copy_a:'Copy Scheme A',w_compare_note:'Compare two die sizes side by side',
+  },
+  'ja': {
+    badge:'MOS Device Toolkit',
+    h_t1:'MOS デバイス',h_t2:'計算ツール',h_sub:'モジュールを選択して開始',
+    c1_t:'パッケージ抵抗計算',c1_d:'ボンディング抵抗・溶断電流',
+    c1_f1:'47種パッケージ対応',c1_f2:'Cu / Al / Au / Alストリップ',c1_f3:'自動抵抗計算',c1_f4:'溶断電流',
+    c2_t:'ID電流計算',c2_d:'最大動作電流の計算',
+    c2_f1:'接合温度 / 抵抗 / 熱抵抗',c2_f2:'ID範囲計算',c2_f3:'熱特性式',c2_f4:'高温抵抗変化',
+    c3_t:'シリコンパラメータ計算',c3_d:'抵抗率 · ドーピング濃度 · 移動度',
+    c3_f1:'N型 / P型 Si',c3_f2:'抵抗率 ↔ ドーピング濃度',c3_f3:'Caughey-Thomasモデル',c3_f4:'グラフ表示',
+    footer:'パッケージパラメータ更新中 · 多くの仕様対応',
+    back:'戻る',
+    r_t:'パッケージ抵抗計算',r_sub:'ボンディング抵抗 · 溶断電流',
+    m_single:'単一計算',m_compare:'比較モード',
+    scheme:'スキーム',
+    pkg_type:'パッケージタイプ',chip_x:'チップ長 X (mm)',chip_y:'チップ幅 Y (mm)',
+    wire_type:'ボンディング方式',wire_copper:'銅線',wire_aluminum:'アルミ線',wire_gold:'金線',wire_strip:'Alストリップ',
+    wire_count:'ワイヤー本数',wire_diam:'ワイヤー径 (mils)',strip_w:'ストリップ幅 (mils)',strip_t:'ストリップ厚 (mils)',
+    calc_res:'抵抗を計算',
+    result:'計算結果',pkg_res:'パッケージ抵抗',fuse_cur:'溶断電流',
+    detail:'詳細パラメータ',mat:'材料',wlen:'ワイヤー長',area:'断面積',single_r:'単線抵抗',
+    cmp_result:'比較結果',res_diff:'抵抗差',lower:'低抵抗',r_copy_a:'方案Aをコピー',
+    id_t:'ID電流計算',id_sub:'熱特性に基づく電流分析',
+    formula:'計算式',input_p:'入力パラメータ',
+    tj:'最大接合温度 TjMax (°C)',tc:'ケース温度 Tc (°C)',r25:'R25 (mΩ)',rjc:'熱抵抗 RJC (°C/W)',
+    calc_id:'ID電流を計算',id_range:'ID範囲',calc_proc:'計算過程',
+    hot_r:'高温抵抗範囲',id_info:'ID範囲：最小値（×2.7）〜 最大値（×2.2）',
+    id_fwd:'ID正算',id_rev:'RJC逆算',id_in:'電流 ID (A)',calc_rjc:'RJCを計算',rjc_result:'熱抵抗 RJC',rjc_range:'RJC範囲',
+    si_fwd:'濃度→抵抗率',si_rev:'抵抗率→濃度',rho_in:'抵抗率 ρ',rho_in_unit:'単位',calc_conc:'ドーピング濃度を計算',
+    err_rho:'有効な抵抗率を入力',err_rho_range:'抵抗率が計算範囲外',
+    si_t:'シリコンパラメータ計算',si_sub:'抵抗率 · ドーピング濃度 · 移動度',
+    dop_type:'ドーパントタイプ',
+    dop_np:'N型（P）',dop_na:'N型（As）',dop_ns:'N型（Sb）',dop_pb:'P型（B）',
+    conc:'ドーピング濃度',unit:'単位',temp:'温度 T (K)',
+    thick:'エピタキシャル層厚さ',opt:'オプション',
+    calc_si:'パラメータを計算',
+    rho:'抵抗率 ρ',sigma:'導電率 σ',mu_n:'電子移動度 μₙ',mu_p:'正孔移動度 μₚ',
+    carrier_n:'電子濃度 n',carrier_p:'正孔濃度 p',sheet_r:'シート抵抗 Rs',
+    chart_rho:'抵抗率 vs ドーピング濃度',chart_mu:'移動度 vs ドーピング濃度',chart_temp:'抵抗率 vs 温度',
+    conc_axis:'ドーピング濃度 (cm⁻³)',rho_axis:'抵抗率 ρ (Ω·cm)',mu_axis:'移動度 (cm²/V·s)',temp_axis:'温度 (K)',
+    err_conc:'有効なドーピング濃度を入力',err_range:'ドーピング範囲: 10¹² ~ 10²¹ cm⁻³',err_temp:'温度範囲: 200 ~ 500 K',
+    c4_t:'ウェハダイス計算',c4_d:'Gross Die · Net Die · 利用率',
+    c4_f1:'4~12 inch ウェハ',c4_f2:'カスタム Die サイズ',c4_f3:'ソーストリート & エッジ除外',c4_f4:'ウェハ可視化',
+    w_t:'ウェハダイス計算',w_sub:'Gross Die · Net Die · 利用率',
+    w_wafer:'ウェハサイズ',w_4in:'4 inch',w_5in:'5 inch',w_6in:'6 inch',w_8in:'8 inch',w_12in:'12 inch',
+    w_die:'Die サイズ',w_die_x:'Die X',w_die_y:'Die Y',w_saw:'ソーストリート幅',w_edge:'エッジ除外',
+    w_yield:'歩留まり Yield (%)',w_calc:'ダイス数を計算',
+    w_diam:'ウェハ径',w_eff_diam:'有効径',w_die_size:'Die サイズ',w_saw_w:'ソーストリート',
+    w_gross:'Gross Die',w_net:'Net Die',w_util:'利用率',
+    w_err_die:'有効な Die サイズを入力',w_err_saw:'有効なソーストリート幅を入力',w_err_yield:'歩留まり範囲: 0~100',
+    w_legend_in:'有効領域',w_legend_out:'エッジ除外',w_die_unit:'Die サイズ単位',
+    w_die_note:'（ソーストリート除く）',w_mode_single:'シングル',w_mode_compare:'比較',
+    w_set_a:'案A',w_set_b:'案B',w_copy_a:'案Aをコピー',w_compare_note:'2つの Die サイズを比較',
+  },
+  'ko': {
+    badge:'MOS Device Toolkit',
+    h_t1:'MOS 소자',h_t2:'계산 도구',h_sub:'모듈을 선택하여 시작',
+    c1_t:'패키지 저항 계산',c1_d:'본딩 저항 및 퓨징 전류',
+    c1_f1:'47종 패키지 지원',c1_f2:'Cu / Al / Au / Al 스트립',c1_f3:'자동 저항 계산',c1_f4:'퓨징 전류',
+    c2_t:'ID 전류 계산',c2_d:'최대 동작 전류 계산',
+    c2_f1:'접합 온도 / 저항 / 열저항',c2_f2:'ID 범위 계산',c2_f3:'열특성 공식',c2_f4:'고온 저항 변화',
+    c3_t:'실리콘 파라미터 계산',c3_d:'비저항 · 도핑 농도 · 이동도',
+    c3_f1:'N형 / P형 Si',c3_f2:'비저항 ↔ 도핑 농도',c3_f3:'Caughey-Thomas 모델',c3_f4:'차트 시각화',
+    footer:'패키지 파라미터 업데이트 · 더 많은 사양 지원',
+    back:'뒤로',
+    r_t:'패키지 저항 계산',r_sub:'본딩 저항 · 퓨징 전류',
+    m_single:'단일 계산',m_compare:'비교 모드',
+    scheme:'스킴',
+    pkg_type:'패키지 유형',chip_x:'칩 길이 X (mm)',chip_y:'칩 폭 Y (mm)',
+    wire_type:'본딩 방식',wire_copper:'구리선',wire_aluminum:'알루미늄선',wire_gold:'금선',wire_strip:'Al 스트립',
+    wire_count:'와이어 수',wire_diam:'와이어 직경 (mils)',strip_w:'스트립 폭 (mils)',strip_t:'스트립 두께 (mils)',
+    calc_res:'저항 계산',
+    result:'결과',pkg_res:'패키지 저항',fuse_cur:'퓨징 전류',
+    detail:'상세 파라미터',mat:'재료',wlen:'와이어 길이',area:'단면적',single_r:'단선 저항',
+    cmp_result:'비교 결과',res_diff:'저항 차이',lower:'낮은 저항',r_copy_a:'방안A 복사',
+    id_t:'ID 전류 계산',id_sub:'열특성 기반 전류 분석',
+    formula:'계산식',input_p:'입력 파라미터',
+    tj:'최대 접합 온도 TjMax (°C)',tc:'케이스 온도 Tc (°C)',r25:'R25 (mΩ)',rjc:'열저항 RJC (°C/W)',
+    calc_id:'ID 전류 계산',id_range:'ID 범위',calc_proc:'계산 과정',
+    hot_r:'고온 저항 범위',id_info:'ID 범위: 최솟값(×2.7) ~ 최댓값(×2.2)',
+    id_fwd:'ID 정산',id_rev:'RJC 역산',id_in:'전류 ID (A)',calc_rjc:'RJC 계산',rjc_result:'열저항 RJC',rjc_range:'RJC 범위',
+    si_fwd:'농도→비저항',si_rev:'비저항→농도',rho_in:'비저항 ρ 입력',rho_in_unit:'단위',calc_conc:'도핑 농도 계산',
+    err_rho:'유효한 비저항 입력',err_rho_range:'비저항이 계산 범위 초과',
+    si_t:'실리콘 파라미터 계산',si_sub:'비저항 · 도핑 농도 · 이동도',
+    dop_type:'도펀트 유형',
+    dop_np:'N형（P）',dop_na:'N형（As）',dop_ns:'N형（Sb）',dop_pb:'P형（B）',
+    conc:'도핑 농도',unit:'단위',temp:'온도 T (K)',
+    thick:'에피택셜 층 두께',opt:'선택',
+    calc_si:'파라미터 계산',
+    rho:'비저항 ρ',sigma:'전도율 σ',mu_n:'전자 이동도 μₙ',mu_p:'정공 이동도 μₚ',
+    carrier_n:'전자 농도 n',carrier_p:'정공 농도 p',sheet_r:'시트 저항 Rs',
+    chart_rho:'비저항 vs 도핑 농도',chart_mu:'이동도 vs 도핑 농도',chart_temp:'비저항 vs 온도',
+    conc_axis:'도핑 농도 (cm⁻³)',rho_axis:'비저항 ρ (Ω·cm)',mu_axis:'이동도 (cm²/V·s)',temp_axis:'온도 (K)',
+    err_conc:'유효한 도핑 농도를 입력',err_range:'도핑 범위: 10¹² ~ 10²¹ cm⁻³',err_temp:'온도 범위: 200 ~ 500 K',
+    c4_t:'웨이퍼 다이 계산',c4_d:'Gross Die · Net Die · 이용률',
+    c4_f1:'4~12 inch 웨이퍼',c4_f2:'커스텀 Die 크기',c4_f3:'소 스트리트 & 에지 제외',c4_f4:'웨이퍼 시각화',
+    w_t:'웨이퍼 다이 계산',w_sub:'Gross Die · Net Die · 이용률',
+    w_wafer:'웨이퍼 크기',w_4in:'4 inch',w_5in:'5 inch',w_6in:'6 inch',w_8in:'8 inch',w_12in:'12 inch',
+    w_die:'Die 크기',w_die_x:'Die X',w_die_y:'Die Y',w_saw:'소 스트리트 폭',w_edge:'에지 제외',
+    w_yield:'수율 Yield (%)',w_calc:'다이 수 계산',
+    w_diam:'웨이퍼 직경',w_eff_diam:'유효 직경',w_die_size:'Die 크기',w_saw_w:'소 스트리트',
+    w_gross:'Gross Die',w_net:'Net Die',w_util:'이용률',
+    w_err_die:'유효한 Die 크기를 입력',w_err_saw:'유효한 소 스트리트 폭을 입력',w_err_yield:'수율 범위: 0~100',
+    w_legend_in:'유효 영역',w_legend_out:'에지 제외',w_die_unit:'Die 크기 단위',
+    w_die_note:'(소 스트리트 제외)',w_mode_single:'단일',w_mode_compare:'비교',
+    w_set_a:'방안A',w_set_b:'방안B',w_copy_a:'방안A 복사',w_compare_note:'두 Die 크기 비교',
+  }
+};
+function L(k){ return T[curLang][k] || T['zh-CN'][k] || k; }
+function langLabel(code){ return LANG_LIST.find(l=>l.code===code)?.label || code; }
 
 // ===================== 计算逻辑 =====================
 const A=0.0254;
@@ -403,7 +786,32 @@ const ico={
   warn:`<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
   bolt:`<svg width="22" height="22" fill="none" stroke="#34d399" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
   calc:`<svg width="22" height="22" fill="none" stroke="#60a5fa" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`,
+  globe:`<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`,
+  wafer:`<svg width="22" height="22" fill="none" stroke="#c084fc" viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 1.5" stroke-width="0.8"/><rect x="9.5" y="9.5" width="2" height="2" rx="0.3" stroke-width="0.7"/><rect x="12.5" y="9.5" width="2" height="2" rx="0.3" stroke-width="0.7"/><rect x="9.5" y="12.5" width="2" height="2" rx="0.3" stroke-width="0.7"/><rect x="12.5" y="12.5" width="2" height="2" rx="0.3" stroke-width="0.7"/></svg>`,
 };
+
+// ===================== 语言选择器 HTML =====================
+function langDropdownHTML(){
+  return `<div class="lang-wrap">
+    <button class="lang-btn" onclick="toggleLangMenu()">${ico.globe} ${langLabel(curLang)}</button>
+    <div class="lang-menu" id="langMenu">
+      ${LANG_LIST.map(l=>`<div class="lang-item${l.code===curLang?' active':''}" onclick="switchLang('${l.code}')"><span class="dot"></span>${l.label}</div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function toggleLangMenu(){
+  const m=document.getElementById('langMenu');
+  if(m) m.classList.toggle('show');
+}
+function switchLang(code){
+  curLang=code;
+  if(mode==='home') goHome();
+  else if(mode==='resistance') renderResPage();
+  else if(mode==='id') goId();
+  else if(mode==='resistivity') goResistivity();
+  else if(mode==='wafer') goWafer();
+}
 
 // ===================== 页面渲染 =====================
 const app=document.getElementById('app');
@@ -413,10 +821,11 @@ function goHome(){
   app.innerHTML=`
   <div class="page-bg">
     <div class="page-inner anim" style="max-width:780px">
+      ${langDropdownHTML()}
       <div class="page-header">
-        <div class="badge-pill"><div class="badge-dot"></div><span class="badge-text">MOS Device Toolkit</span></div>
-        <h1 class="page-title">MOS 器件<span class="grad-blue">计算工具</span></h1>
-        <p class="page-sub">选择功能模块开始计算</p>
+        <div class="badge-pill"><div class="badge-dot"></div><span class="badge-text">${L('badge')}</span></div>
+        <h1 class="page-title">${L('h_t1')}<span class="grad-blue">${L('h_t2')}</span></h1>
+        <p class="page-sub">${L('h_sub')}</p>
       </div>
       <div class="module-grid">
         <div class="card card-hover module-card" onclick="goResistance()">
@@ -424,13 +833,13 @@ function goHome(){
           <div class="card-header">
             <div class="icon-box icon-box-blue">${ico.calc}</div>
             <div style="flex:1">
-              <div class="card-title">封装电阻计算</div>
-              <div class="card-desc">计算打线电阻与极限电流</div>
+              <div class="card-title">${L('c1_t')}</div>
+              <div class="card-desc">${L('c1_d')}</div>
             </div>
             <div class="card-arrow">${ico.arr}</div>
           </div>
           <div class="feature-grid">
-            ${['支持 47 种封装','铜 / 铝 / 金 / 铝带','自动计算电阻','熔断极限电流'].map(t=>`
+            ${[L('c1_f1'),L('c1_f2'),L('c1_f3'),L('c1_f4')].map(t=>`
               <div class="feature-item">${ico.check} ${t}</div>`).join('')}
           </div>
         </div>
@@ -439,18 +848,48 @@ function goHome(){
           <div class="card-header">
             <div class="icon-box icon-box-green">${ico.bolt}</div>
             <div style="flex:1">
-              <div class="card-title">ID 电流计算</div>
-              <div class="card-desc">计算器件最大工作电流</div>
+              <div class="card-title">${L('c2_t')}</div>
+              <div class="card-desc">${L('c2_d')}</div>
             </div>
             <div class="card-arrow">${ico.arr}</div>
           </div>
           <div class="feature-grid">
-            ${['输入结温 / 电阻 / 热阻','计算 ID 范围','基于热特性公式','考虑高温电阻变化'].map(t=>`
+            ${[L('c2_f1'),L('c2_f2'),L('c2_f3'),L('c2_f4')].map(t=>`
               <div class="feature-item">${ico.checkG} ${t}</div>`).join('')}
           </div>
         </div>
+        <div class="card card-hover module-card" onclick="goResistivity()">
+          <div class="glow-bg" style="background:radial-gradient(circle,rgba(251,146,60,.1) 0%,transparent 70%)"></div>
+          <div class="card-header">
+            <div class="icon-box" style="background:linear-gradient(135deg,rgba(251,146,60,.18),rgba(251,191,36,.18));border:1px solid rgba(251,146,60,.28)">${ico.calc}</div>
+            <div style="flex:1">
+              <div class="card-title">${L('c3_t')}</div>
+              <div class="card-desc">${L('c3_d')}</div>
+            </div>
+            <div class="card-arrow">${ico.arr}</div>
+          </div>
+          <div class="feature-grid">
+            ${[L('c3_f1'),L('c3_f2'),L('c3_f3'),L('c3_f4')].map(t=>`
+              <div class="feature-item">${ico.check} ${t}</div>`).join('')}
+          </div>
+        </div>
+        <div class="card card-hover module-card" onclick="goWafer()">
+          <div class="glow-bg" style="background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%)"></div>
+          <div class="card-header">
+            <div class="icon-box" style="background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(139,92,246,.18));border:1px solid rgba(168,85,247,.28)">${ico.wafer}</div>
+            <div style="flex:1">
+              <div class="card-title">${L('c4_t')}</div>
+              <div class="card-desc">${L('c4_d')}</div>
+            </div>
+            <div class="card-arrow">${ico.arr}</div>
+          </div>
+          <div class="feature-grid">
+            ${[L('c4_f1'),L('c4_f2'),L('c4_f3'),L('c4_f4')].map(t=>`
+              <div class="feature-item"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="rgba(168,85,247,.4)"/><path d="M3.5 6l2 2 3-3" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> ${t}</div>`).join('')}
+          </div>
+        </div>
       </div>
-      <div style="text-align:center;margin-top:38px;font-size:12px;color:#1e3355">封装参数持续更新 · 支持更多规格</div>
+      <div style="text-align:center;margin-top:38px;font-size:12px;color:#1e3355">${L('footer')}</div>
     </div>
   </div>`;
 }
@@ -467,17 +906,16 @@ function renderResPage(){
   <div class="page-bg">
     <div class="page-inner anim" style="max-width:${maxW}">
       <div class="top-nav mb24">
-        <button class="btn-back" onclick="goHome()">${ico.back} 返回主页</button>
+        <button class="btn-back" onclick="goHome()">${ico.back} ${L('back')}</button>
         <div class="nav-title-wrap">
-          <div class="nav-title">封装电阻计算</div>
-          <div class="nav-sub">打线电阻 · 极限电流</div>
+          <div class="nav-title">${L('r_t')}</div>
+          <div class="nav-sub">${L('r_sub')}</div>
         </div>
-        <div style="width:90px"></div>
       </div>
       <div class="mode-wrap mb24">
         <div class="mode-switcher">
-          <button class="mode-btn ${!isC?'active':''}" id="btnSingle" onclick="toggleCompare(false)">单个计算</button>
-          <button class="mode-btn ${isC?'active':''}" id="btnComp" onclick="toggleCompare(true)">对比模式</button>
+          <button class="mode-btn ${!isC?'active':''}" onclick="toggleCompare(false)">${L('m_single')}</button>
+          <button class="mode-btn ${isC?'active':''}" onclick="toggleCompare(true)">${L('m_compare')}</button>
         </div>
       </div>
       <div id="calcArea"></div>
@@ -490,9 +928,10 @@ function renderCalcArea(){
   const area=document.getElementById('calcArea');
   if(!area) return;
   if(stA.compare){
+    const copyBtnB = `<button class="btn-calc-purple" style="font-size:11px;padding:3px 8px;opacity:.85;hover:opacity:1" onclick="copyRonA2B()">${L('r_copy_a')}</button>`;
     area.innerHTML=`
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
-        ${calcCard('A',stA,'blue')}${calcCard('B',stB,'purple')}
+        ${calcCard('A',stA,'blue','')}${calcCard('B',stB,'purple',copyBtnB)}
       </div>
       <div id="resArea" style="margin-top:18px"></div>`;
   } else {
@@ -506,12 +945,12 @@ function pkgOptions(id){
   return Object.keys(PKG).map(p=>`<div class="dd-item" onclick="pickPkg('${id}','${p}')">${p}</div>`).join('');
 }
 
-function calcCard(id,st,color){
+function calcCard(id,st,color,overlayHtml){
   const isStrip=st.wire==='aluminumStrip';
   const btnCls=color==='blue'?'btn-calc-blue':'btn-calc-purple';
   const tagCls=color==='blue'?'scheme-tag-blue':'scheme-tag-purple';
   const wireBtns=['copper','aluminum','gold','aluminumStrip'].map(k=>{
-    const labels={copper:'铜线',aluminum:'铝线',gold:'金线',aluminumStrip:'铝带'};
+    const labels={copper:L('wire_copper'),aluminum:L('wire_aluminum'),gold:L('wire_gold'),aluminumStrip:L('wire_strip')};
     const act=st.wire===k?` w-${k}`:'';
     return `<button class="wire-btn${act}" onclick="setWire('${id}','${k}')">${labels[k]}</button>`;
   }).join('');
@@ -520,19 +959,20 @@ function calcCard(id,st,color){
     <div style="position:absolute;top:-40px;right:-40px;width:110px;height:110px;
          border-radius:50%;pointer-events:none;background:radial-gradient(circle,
          ${color==='blue'?'rgba(59,130,246,.09)':'rgba(139,92,246,.08)'} 0%,transparent 70%)"></div>
+    ${overlayHtml?`<div style="position:absolute;top:8px;right:8px;z-index:2">${overlayHtml}</div>`:''}
     <div style="display:flex;align-items:center;gap:10px" class="mb20">
       <div class="scheme-tag ${tagCls}">${id}</div>
-      <span style="font-size:15px;font-weight:600;color:#e2e8f0">方案 ${id}</span>
+      <span style="font-size:15px;font-weight:600;color:#e2e8f0">${L('scheme')}${id}</span>
     </div>
     <div class="mb16">
-      <span class="lbl">封装类型</span>
+      <span class="lbl">${L('pkg_type')}</span>
       <div class="dd-wrap" id="ddWrap${id}">
-        <input class="inp" id="pkgInp${id}" value="${st.pkg}" placeholder="选择或输入封装类型"
+        <input class="inp" id="pkgInp${id}" value="${st.pkg}" placeholder="选择封装类型"
                style="cursor:pointer" autocomplete="off" readonly
                onclick="toggleDd('${id}')" />
         <div class="dd-menu" id="ddMenu${id}">
           <div class="dd-search">
-            <input class="inp" id="ddSearch${id}" placeholder="搜索封装…"
+            <input class="inp" id="ddSearch${id}" placeholder="搜索…"
                    oninput="filterDd('${id}',this.value)" style="font-size:13px;padding:8px 12px" autocomplete="off"/>
           </div>
           <div class="dd-list" id="ddList${id}">${pkgOptions(id)}</div>
@@ -541,102 +981,135 @@ function calcCard(id,st,color){
     </div>
     <div class="row2 mb16">
       <div>
-        <span class="lbl">芯片长度 X (mm)</span>
+        <span class="lbl">${L('chip_x')}</span>
         <input class="inp" type="number" step=".1" min="0" id="chipX${id}" value="${st.chipX}"
                oninput="upSt('${id}','chipX',this.value)" placeholder="如: 3.0"/>
       </div>
       <div>
-        <span class="lbl">芯片宽度 Y (mm)</span>
+        <span class="lbl">${L('chip_y')}</span>
         <input class="inp" type="number" step=".1" min="0" id="chipY${id}" value="${st.chipY}"
                oninput="upSt('${id}','chipY',this.value)" placeholder="如: 3.0"/>
       </div>
     </div>
     <div class="mb16">
-      <span class="lbl">打线方式</span>
+      <span class="lbl">${L('wire_type')}</span>
       <div class="wire-grid">${wireBtns}</div>
     </div>
     <div class="mb16">
-      <span class="lbl">打线根数</span>
+      <span class="lbl">${L('wire_count')}</span>
       <input class="inp" type="number" min="1" max="100" id="cnt${id}" value="${st.count}"
              oninput="upSt('${id}','count',this.value)" placeholder="如: 1"/>
     </div>
     <div id="diamSec${id}" class="mb16${isStrip?' hidden':''}">
-      <span class="lbl">打线直径 (mils)</span>
+      <span class="lbl">${L('wire_diam')}</span>
       <input class="inp" type="number" step=".1" min="1" id="diam${id}" value="${st.diam}"
              oninput="upSt('${id}','diam',this.value)" placeholder="如: 12"/>
     </div>
     <div id="stripSec${id}" class="${isStrip?'':'hidden'}">
       <div class="row2 mb16">
         <div>
-          <span class="lbl">铝带宽度 (mils)</span>
+          <span class="lbl">${L('strip_w')}</span>
           <input class="inp" type="number" step=".1" min="1" id="sw${id}" value="${st.w}"
                  oninput="upSt('${id}','w',this.value)" placeholder="如: 40"/>
         </div>
         <div>
-          <span class="lbl">铝带厚度 (mils)</span>
+          <span class="lbl">${L('strip_t')}</span>
           <input class="inp" type="number" step=".1" min=".1" id="st${id}" value="${st.t}"
                  oninput="upSt('${id}','t',this.value)" placeholder="如: 3.9"/>
         </div>
       </div>
     </div>
-    <button class="${btnCls}" onclick="doCalcR('${id}')">计算封装电阻</button>
+    <button class="${btnCls}" onclick="doCalcR('${id}')">${L('calc_res')}</button>
   </div>`;
 }
 
 function goId(){
   mode='id';
+  const idMode = stId.idMode || 'fwd';
+  const isFwd = idMode === 'fwd';
   app.innerHTML=`
   <div class="page-bg">
     <div class="page-inner anim" style="max-width:540px">
       <div class="top-nav mb24">
-        <button class="btn-back" onclick="goHome()">${ico.back} 返回主页</button>
+        <button class="btn-back" onclick="goHome()">${ico.back} ${L('back')}</button>
         <div class="nav-title-wrap">
-          <div class="nav-title">ID 电流计算</div>
-          <div class="nav-sub">基于热特性的电流分析</div>
+          <div class="nav-title">${L('id_t')}</div>
+          <div class="nav-sub">${L('id_sub')}</div>
         </div>
-        <div style="width:90px"></div>
       </div>
       <div class="card mb20" style="padding:20px">
-        <div class="sec-title">计算公式</div>
+        <div class="sec-title">${L('formula')}</div>
         <div class="formula-box">
-          <div class="formula-text">ID = √[(TjMax − Tc) × 1000 / (RJC × Rhot)]</div>
+          <div class="formula-text">${isFwd ? 'ID = √[(TjMax − Tc) × 1000 / (RJC × Rhot)]' : 'RJC = (TjMax − Tc) × 1000 / (ID² × Rhot)'}</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:7px">
           <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5f7c">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(96,165,250,.4)"/><text x="7" y="11" text-anchor="middle" font-size="8" fill="#60a5fa" font-weight="700">i</text></svg>
-            <span><span style="color:#93c5fd;font-weight:500">Rhot</span> = R25 × (2.2 ~ 2.7)　高温电阻范围</span>
+            <span><span style="color:#93c5fd;font-weight:500">Rhot</span> = R25 × (2.2 ~ 2.7)　${L('hot_r')}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5f7c">
+          ${isFwd ? `<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4b5f7c">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" stroke="rgba(96,165,250,.4)"/><text x="7" y="11" text-anchor="middle" font-size="8" fill="#60a5fa" font-weight="700">i</text></svg>
-            <span>返回 ID 范围：最小值（×2.7）~ 最大值（×2.2）</span>
-          </div>
+            <span>${L('id_info')}</span>
+          </div>` : ''}
         </div>
       </div>
       <div class="card mb20" style="padding:24px">
-        <div class="sec-title">输入参数</div>
+        <div class="mode-wrap mb20">
+          <div class="mode-switcher">
+            <button class="mode-btn ${isFwd?'active':''}" onclick="setIdMode('fwd')">${L('id_fwd')}</button>
+            <button class="mode-btn ${!isFwd?'active':''}" onclick="setIdMode('rev')">${L('id_rev')}</button>
+          </div>
+        </div>
+        <div class="sec-title">${L('input_p')}</div>
+        ${isFwd ? `
         <div class="row2 mb20">
           <div>
-            <span class="lbl">最大结温 TjMax (°C)</span>
+            <span class="lbl">${L('tj')}</span>
             <input class="inp" type="number" step="1" min="0" id="tjMax" value="${stId.tjMax}"
                    oninput="stId.tjMax=this.value" placeholder="如: 175"/>
           </div>
           <div>
-            <span class="lbl">外壳温度 Tc (°C)</span>
+            <span class="lbl">${L('tc')}</span>
             <input class="inp" type="number" step="1" min="0" id="tc" value="${stId.tc}"
                    oninput="stId.tc=this.value" placeholder="如: 25"/>
           </div>
           <div>
-            <span class="lbl">常温电阻 R25 (mΩ)</span>
+            <span class="lbl">${L('r25')}</span>
             <input class="inp" type="number" step=".1" min="0" id="r25" value="${stId.r25}"
                    oninput="stId.r25=this.value" placeholder="如: 10"/>
           </div>
           <div>
-            <span class="lbl">热阻 RJC (°C/W)</span>
+            <span class="lbl">${L('rjc')}</span>
             <input class="inp" type="number" step=".01" min="0" id="rjc" value="${stId.rjc}"
                    oninput="stId.rjc=this.value" placeholder="如: 1"/>
           </div>
         </div>
-        <button class="btn-calc-green" onclick="doCalcId()">计算 ID 电流</button>
+        <button class="btn-calc-green" onclick="doCalcId()">${L('calc_id')}</button>
+        ` : `
+        <div class="row2 mb20">
+          <div>
+            <span class="lbl">${L('id_in')}</span>
+            <input class="inp" type="number" step=".01" min="0" id="idCurrent" value="${stId.idCurrent}"
+                   oninput="stId.idCurrent=this.value" placeholder="如: 50"/>
+          </div>
+          <div>
+            <span class="lbl">${L('tj')}</span>
+            <input class="inp" type="number" step="1" min="0" id="tjMax" value="${stId.tjMax}"
+                   oninput="stId.tjMax=this.value" placeholder="如: 175"/>
+          </div>
+          <div>
+            <span class="lbl">${L('tc')}</span>
+            <input class="inp" type="number" step="1" min="0" id="tc" value="${stId.tc}"
+                   oninput="stId.tc=this.value" placeholder="如: 25"/>
+          </div>
+          <div>
+            <span class="lbl">${L('r25')}</span>
+            <input class="inp" type="number" step=".1" min="0" id="r25" value="${stId.r25}"
+                   oninput="stId.r25=this.value" placeholder="如: 10"/>
+          </div>
+        </div>
+        <button class="btn-calc-green" onclick="doCalcRjc()">${L('calc_rjc')}</button>
+        `}
       </div>
       <div id="idRes"></div>
     </div>
@@ -728,7 +1201,56 @@ function doCalcR(id){
     }
   } catch(e){
     const area=document.getElementById('resArea');
-    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} 计算错误：${e.message}</div>`;
+    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} ${e.message}</div>`;
+  }
+}
+
+function setIdMode(m){
+  stId.idMode = m;
+  goId();
+}
+
+function copyRonA2B(){
+  ['pkg','chipX','chipY','wire','count','diam','w','t'].forEach(k=> stB[k]=stA[k]);
+  renderCalcArea();
+}
+
+function doCalcRjc(){
+  try{
+    const id=parseFloat(stId.idCurrent)||0;
+    const tj=parseFloat(stId.tjMax)||0,tc=parseFloat(stId.tc)||0;
+    const r25=parseFloat(stId.r25)||0;
+    if(id<=0) throw new Error('ID > 0');
+    if(tj<=tc) throw new Error('TjMax > Tc');
+    if(r25<=0) throw new Error('R25 > 0');
+    const dt=tj-tc;
+    const rMin=r25*2.2,rMax=r25*2.7;
+    // RJC = ΔT × 1000 / (ID² × Rhot)
+    const rjcMin=dt*1000/(id*id*rMax);
+    const rjcMax=dt*1000/(id*id*rMin);
+    const area=document.getElementById('idRes');
+    if(area) area.innerHTML=`
+    <div class="card anim" style="padding:24px">
+      <div class="sec-title">${L('result')}</div>
+      <div class="id-result-hero">
+        <div class="id-hero-label">${L('rjc_range')}</div>
+        <div class="id-hero-val grad-blue">${rjcMin.toFixed(3)} ~ ${rjcMax.toFixed(3)}</div>
+        <div class="id-hero-unit">°C/W</div>
+      </div>
+      <div class="divider"></div>
+      <div class="sec-title">${L('calc_proc')}</div>
+      <div class="code-block">
+        <div>ΔT &nbsp;&nbsp;&nbsp;&nbsp;= TjMax − Tc = <span class="code-var">${dt} °C</span></div>
+        <div>Rhot_min = R25 × 2.2 = <span class="code-var">${rMin.toFixed(2)} mΩ</span></div>
+        <div>Rhot_max = R25 × 2.7 = <span class="code-var">${rMax.toFixed(2)} mΩ</span></div>
+        <div style="height:1px;background:rgba(255,255,255,.05);margin:6px 0"></div>
+        <div>RJC_max = ${dt}×1000 / (${id}²×${rMin.toFixed(2)}) = <span class="code-result">${rjcMax.toFixed(3)} °C/W</span></div>
+        <div>RJC_min = ${dt}×1000 / (${id}²×${rMax.toFixed(2)}) = <span class="code-result">${rjcMin.toFixed(3)} °C/W</span></div>
+      </div>
+    </div>`;
+  } catch(e){
+    const area=document.getElementById('idRes');
+    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} ${e.message}</div>`;
   }
 }
 
@@ -736,14 +1258,14 @@ function doCalcId(){
   try{
     const tj=parseFloat(stId.tjMax)||0,tc=parseFloat(stId.tc)||0;
     const r25=parseFloat(stId.r25)||0,rjc=parseFloat(stId.rjc)||0;
-    if(tj<=tc) throw new Error('最大结温必须大于外壳温度');
-    if(r25<=0||rjc<=0) throw new Error('电阻和热阻必须大于 0');
+    if(tj<=tc) throw new Error('TjMax > Tc');
+    if(r25<=0||rjc<=0) throw new Error('R25 & RJC > 0');
     const res=calcId(tj,r25,rjc,tc);
     const area=document.getElementById('idRes');
     if(area) area.innerHTML=showId(res);
   } catch(e){
     const area=document.getElementById('idRes');
-    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} 计算错误：${e.message}</div>`;
+    if(area) area.innerHTML=`<div class="err-box anim">${ico.warn} ${e.message}</div>`;
   }
 }
 
@@ -752,30 +1274,30 @@ function showSingle(r){
   const fc=r.fusingCurrent;
   return `
   <div class="card anim" style="padding:24px">
-    <div class="sec-title">计算结果</div>
+    <div class="sec-title">${L('result')}</div>
     <div class="res-num-grid">
       <div class="res-num-box blue-glow">
-        <div class="res-label">封装电阻</div>
+        <div class="res-label">${L('pkg_res')}</div>
         <div class="res-val" style="color:#60a5fa">${(r.resistance*1e3).toFixed(3)}</div>
         <div class="res-unit" style="color:#3b82f6">mΩ</div>
       </div>
       <div class="res-num-box orange-glow">
-        <div class="res-label">熔断极限电流</div>
+        <div class="res-label">${L('fuse_cur')}</div>
         <div class="res-val" style="color:#fb923c;font-size:${fc?'26px':'20px'}">${fc?fc.toFixed(2):'—'}</div>
         ${fc?'<div class="res-unit" style="color:#f97316">A</div>':''}
       </div>
     </div>
     <div class="divider"></div>
-    <div class="sec-title">详细参数</div>
+    <div class="sec-title">${L('detail')}</div>
     <div>
-      <div class="detail-row"><span class="dk">材料</span><span class="dv">${r.details.material}</span></div>
-      <div class="detail-row"><span class="dk">打线根数</span><span class="dv">${r.details.wireCount} 根</span></div>
-      ${r.details.diameterMils!=null?`<div class="detail-row"><span class="dk">线径</span><span class="dv">${r.details.diameterMils} mils</span></div>`:''}
-      ${r.details.widthMils!=null?`<div class="detail-row"><span class="dk">铝带宽度</span><span class="dv">${r.details.widthMils} mils</span></div>`:''}
-      ${r.details.thicknessMils!=null?`<div class="detail-row"><span class="dk">铝带厚度</span><span class="dv">${r.details.thicknessMils} mils</span></div>`:''}
-      <div class="detail-row"><span class="dk">截面积</span><span class="dv">${r.details.crossSectionArea.toFixed(4)} mm²</span></div>
-      <div class="detail-row"><span class="dk">打线长度</span><span class="dv">${r.details.wireLength.toFixed(3)} mm</span></div>
-      <div class="detail-row"><span class="dk">单根电阻</span><span class="dv">${(r.details.singleWireResistance*1e3).toFixed(4)} mΩ</span></div>
+      <div class="detail-row"><span class="dk">${L('mat')}</span><span class="dv">${r.details.material}</span></div>
+      <div class="detail-row"><span class="dk">${L('wire_count')}</span><span class="dv">${r.details.wireCount}</span></div>
+      ${r.details.diameterMils!=null?`<div class="detail-row"><span class="dk">${L('wire_diam')}</span><span class="dv">${r.details.diameterMils} mils</span></div>`:''}
+      ${r.details.widthMils!=null?`<div class="detail-row"><span class="dk">${L('strip_w')}</span><span class="dv">${r.details.widthMils} mils</span></div>`:''}
+      ${r.details.thicknessMils!=null?`<div class="detail-row"><span class="dk">${L('strip_t')}</span><span class="dv">${r.details.thicknessMils} mils</span></div>`:''}
+      <div class="detail-row"><span class="dk">${L('area')}</span><span class="dv">${r.details.crossSectionArea.toFixed(4)} mm²</span></div>
+      <div class="detail-row"><span class="dk">${L('wlen')}</span><span class="dv">${r.details.wireLength.toFixed(3)} mm</span></div>
+      <div class="detail-row"><span class="dk">${L('single_r')}</span><span class="dv">${(r.details.singleWireResistance*1e3).toFixed(4)} mΩ</span></div>
     </div>
   </div>`;
 }
@@ -786,27 +1308,27 @@ function showCompare(rA,rB){
   const better=rA.resistance<rB.resistance?'A':'B';
   return `
   <div class="card anim" style="padding:24px">
-    <div class="sec-title">对比结果</div>
+    <div class="sec-title">${L('cmp_result')}</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div class="res-num-box" style="border-color:${better==='A'?'rgba(59,130,246,.4)':'rgba(255,255,255,.06)'};background:${better==='A'?'rgba(59,130,246,.07)':'rgba(10,17,32,.55)'}">
-        <div style="font-size:10px;color:#60a5fa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">方案 A</div>
+        <div style="font-size:10px;color:#60a5fa;font-weight:700;letter-spacing:.06em;margin-bottom:8px">${L('scheme')}A</div>
         <div style="font-size:25px;font-weight:700;color:${better==='A'?'#60a5fa':'#64748b'};letter-spacing:-.02em">${(rA.resistance*1e3).toFixed(3)}</div>
         <div style="font-size:10px;color:#3b82f6;margin-top:3px;font-weight:500">mΩ</div>
-        ${rA.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">极限电流 ${rA.fusingCurrent.toFixed(2)} A</div>`:''}
-        ${better==='A'?'<div><span class="winner-badge">✓ 更低阻值</span></div>':''}
+        ${rA.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">${L('fuse_cur')} ${rA.fusingCurrent.toFixed(2)} A</div>`:''}
+        ${better==='A'?`<div><span class="winner-badge">✓ ${L('lower')}</span></div>`:''}
       </div>
       <div class="res-num-box" style="border-color:${better==='B'?'rgba(192,132,252,.4)':'rgba(255,255,255,.06)'};background:${better==='B'?'rgba(139,92,246,.07)':'rgba(10,17,32,.55)'}">
-        <div style="font-size:10px;color:#c084fc;font-weight:700;letter-spacing:.06em;margin-bottom:8px">方案 B</div>
+        <div style="font-size:10px;color:#c084fc;font-weight:700;letter-spacing:.06em;margin-bottom:8px">${L('scheme')} B</div>
         <div style="font-size:25px;font-weight:700;color:${better==='B'?'#c084fc':'#64748b'};letter-spacing:-.02em">${(rB.resistance*1e3).toFixed(3)}</div>
         <div style="font-size:10px;color:#a855f7;margin-top:3px;font-weight:500">mΩ</div>
-        ${rB.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">极限电流 ${rB.fusingCurrent.toFixed(2)} A</div>`:''}
-        ${better==='B'?'<div><span class="winner-badge">✓ 更低阻值</span></div>':''}
+        ${rB.fusingCurrent?`<div style="font-size:11px;color:#f97316;margin-top:5px">${L('fuse_cur')} ${rB.fusingCurrent.toFixed(2)} A</div>`:''}
+        ${better==='B'?`<div><span class="winner-badge">✓ ${L('lower')}</span></div>`:''}
       </div>
     </div>
     <div class="diff-bar">
-      <div style="font-size:10px;color:#334155;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;font-weight:600">电阻差异</div>
+      <div style="font-size:10px;color:#334155;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;font-weight:600">${L('res_diff')}</div>
       <div class="diff-val">${Math.abs(diff).toFixed(3)} mΩ</div>
-      <div class="diff-hint">${pct}% · 方案 ${better} 阻值更低</div>
+      <div class="diff-hint">${pct}% · ${L('scheme')} ${better} ${L('lower')}</div>
     </div>
   </div>`;
 }
@@ -815,14 +1337,14 @@ function showId(r){
   const d=r.details;
   return `
   <div class="card anim" style="padding:24px">
-    <div class="sec-title">计算结果</div>
+    <div class="sec-title">${L('result')}</div>
     <div class="id-result-hero">
-      <div class="id-hero-label">器件 ID 范围</div>
+      <div class="id-hero-label">${L('id_range')}</div>
       <div class="id-hero-val grad-green">${r.idMin.toFixed(2)} ~ ${r.idMax.toFixed(2)}</div>
       <div class="id-hero-unit">Ampere (A)</div>
     </div>
     <div class="divider"></div>
-    <div class="sec-title">计算过程</div>
+    <div class="sec-title">${L('calc_proc')}</div>
     <div class="code-block">
       <div>ΔT &nbsp;&nbsp;&nbsp;&nbsp;= TjMax − Tc = <span class="code-var">${d.deltaT} °C</span></div>
       <div>Rhot_min = R25 × 2.2 = <span class="code-var">${d.rHotMin.toFixed(2)} mΩ</span></div>
@@ -834,10 +1356,1134 @@ function showId(r){
   </div>`;
 }
 
+// ===================== 硅材料电阻率计算模块 =====================
+
+// Caughey-Thomas 迁移率模型参数（用户指定 μmax）
+const MOBILITY_PARAMS = {
+  'n-phosphorus':  { mumax:1360, mumin:60,   Nref:9.68e16, alpha:0.711 },
+  'n-arsenic':     { mumax:1360, mumin:60,   Nref:9.68e16, alpha:0.711 },
+  'n-antimony':    { mumax:1280, mumin:60,   Nref:1.98e17, alpha:0.719 },
+  'p-boron':       { mumax:462,  mumin:44.9, Nref:2.23e17, alpha:0.719 }
+};
+
+function calcMobility(N_cm3, dopantType) {
+  const p = MOBILITY_PARAMS[dopantType];
+  if (!p) return 0;
+  return p.mumin + (p.mumax - p.mumin) / (1 + Math.pow(N_cm3 / p.Nref, p.alpha));
+}
+
+// 温度修正迁移率：μ(T) = μ(300K) × (300/T)^γ
+function calcMobilityTemp(N_cm3, dopantType, T) {
+  const mu_300 = calcMobility(N_cm3, dopantType);
+  const gamma = dopantType.startsWith('n') ? 2.42 : 2.20;
+  return mu_300 * Math.pow(T / 300, -gamma);
+}
+
+function calcResistivity(dopantType, N_cm3, T) {
+  T = T || 300;
+  const q = 1.602176634e-19;
+  const isNType = dopantType.startsWith('n');
+  const mu = calcMobilityTemp(N_cm3, dopantType, T); // cm²/V·s
+  const sigma_S_per_cm = q * mu * N_cm3;               // S/cm
+  const rho_ohm_cm = 1 / sigma_S_per_cm;               // Ω·cm
+  const sigma_S_per_m = sigma_S_per_cm * 100;            // S/m
+  const rho_ohm_m = 1 / sigma_S_per_m;                 // Ω·m
+  return {
+    rho_ohm_cm,
+    rho_ohm_m,
+    sigma_S_per_cm,
+    sigma_S_per_m,
+    mobility_cm2_per_Vs: mu,
+    carrier_conc: N_cm3
+  };
+}
+
+let resistivityChart = null;
+let mobilityChart = null;
+let temperatureChart = null;
+
+function goResistivity() {
+  mode = 'resistivity';
+  const dopantLabels = {
+    'n-phosphorus': L('dop_np'),
+    'n-arsenic': L('dop_na'),
+    'n-antimony': L('dop_ns'),
+    'p-boron': L('dop_pb')
+  };
+  const dopantKeys = Object.keys(dopantLabels);
+  const isNType = stResistivity.dopantType.startsWith('n');
+  const thickU = stResistivity.thicknessUnit;
+  const siMode = stResistivity.siMode || 'fwd';
+  const isFwd = siMode === 'fwd';
+
+  app.innerHTML = `
+  <div class="page-bg">
+    <div class="page-inner anim" style="max-width:900px">
+      <div class="top-nav mb24">
+        <button class="btn-back" onclick="goHome()">${ico.back} ${L('back')}</button>
+        <div class="nav-title-wrap">
+          <div class="nav-title">${L('si_t')}</div>
+          <div class="nav-sub">${L('si_sub')}</div>
+        </div>
+      </div>
+
+      <div class="card mb20" style="padding:22px">
+        <div class="sec-title">${L('dop_type')}</div>
+        <div class="doping-type-grid mb20">
+          ${dopantKeys.map(k => `
+            <button class="doping-btn ${stResistivity.dopantType===k ? (isNType?'active-n':'active-p') : ''}"
+                    onclick="setDopant('${k}')">${dopantLabels[k]}</button>
+          `).join('')}
+        </div>
+
+        <div class="mode-wrap mb20">
+          <div class="mode-switcher">
+            <button class="mode-btn ${isFwd?'active':''}" onclick="setSiMode('fwd')">${L('si_fwd')}</button>
+            <button class="mode-btn ${!isFwd?'active':''}" onclick="setSiMode('rev')">${L('si_rev')}</button>
+          </div>
+        </div>
+
+        ${isFwd ? `
+        <div class="sec-title">${L('input_p')}</div>
+        <div class="row2 mb16">
+          <div>
+            <span class="lbl">${L('conc')}</span>
+            <input class="inp" type="text" id="inpConc" value="${stResistivity.concentration}"
+                   oninput="stResistivity.concentration=this.value" placeholder="如: 1e16"/>
+          </div>
+          <div>
+            <span class="lbl">${L('unit')}</span>
+            <div style="margin-top:4px;font-size:13px;color:#6ee7b7;font-weight:500">cm⁻³</div>
+          </div>
+        </div>
+        <div class="row2 mb20">
+          <div>
+            <span class="lbl">${L('temp')}</span>
+            <input class="inp" type="number" step="1" min="200" max="500" id="inpTemp" value="${stResistivity.temperature}"
+                   oninput="stResistivity.temperature=this.value" placeholder="300"/>
+          </div>
+          <div>
+            <span class="lbl">${L('thick')}（${L('opt')}）</span>
+            <input class="inp" type="number" step="0.1" min="0" id="inpThick" value="${stResistivity.thickness}"
+                   oninput="stResistivity.thickness=this.value" placeholder="如: 10"
+                   style="margin-bottom:6px"/>
+            <div class="unit-toggle" id="thickUnitToggle">
+              <button class="unit-btn ${thickU==='um'?'active':''}" onclick="setThickUnit('um')">μm</button>
+              <button class="unit-btn ${thickU==='mm'?'active':''}" onclick="setThickUnit('mm')">mm</button>
+              <button class="unit-btn ${thickU==='mils'?'active':''}" onclick="setThickUnit('mils')">mils</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn-calc-green" onclick="doCalcResistivity()">${L('calc_si')}</button>
+        ` : `
+        <div class="sec-title">${L('input_p')}</div>
+        <div class="row2 mb16">
+          <div>
+            <span class="lbl">${L('rho_in')}</span>
+            <input class="inp" type="text" id="inpRho" value="${stResistivity.rhoInput}"
+                   oninput="stResistivity.rhoInput=this.value" placeholder="如: 0.5"/>
+          </div>
+          <div>
+            <span class="lbl">${L('rho_in_unit')}</span>
+            <div class="unit-toggle" id="rhoInputUnitToggle" style="margin-top:4px">
+              <button class="unit-btn ${stResistivity.rhoInputUnit==='ohm_cm'?'active':''}" onclick="setRhoInputUnit('ohm_cm')">Ω·cm</button>
+              <button class="unit-btn ${stResistivity.rhoInputUnit==='ohm_m'?'active':''}" onclick="setRhoInputUnit('ohm_m')">Ω·m</button>
+            </div>
+          </div>
+        </div>
+        <div class="row2 mb20">
+          <div>
+            <span class="lbl">${L('temp')}</span>
+            <input class="inp" type="number" step="1" min="200" max="500" id="inpTemp" value="${stResistivity.temperature}"
+                   oninput="stResistivity.temperature=this.value" placeholder="300"/>
+          </div>
+          <div>
+            <span class="lbl">${L('thick')}（${L('opt')}）</span>
+            <input class="inp" type="number" step="0.1" min="0" id="inpThick" value="${stResistivity.thickness}"
+                   oninput="stResistivity.thickness=this.value" placeholder="如: 10"
+                   style="margin-bottom:6px"/>
+            <div class="unit-toggle" id="thickUnitToggle">
+              <button class="unit-btn ${thickU==='um'?'active':''}" onclick="setThickUnit('um')">μm</button>
+              <button class="unit-btn ${thickU==='mm'?'active':''}" onclick="setThickUnit('mm')">mm</button>
+              <button class="unit-btn ${thickU==='mils'?'active':''}" onclick="setThickUnit('mils')">mils</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn-calc-green" onclick="doCalcConcentration()">${L('calc_conc')}</button>
+        `}
+      </div>
+
+      <div id="resistivityResult"></div>
+
+      <div class="card mb20" style="padding:20px">
+        <div class="sec-title">${L('chart_rho')}</div>
+        <div class="chart-wrap">
+          <canvas id="chartResistivity" style="height:280px"></canvas>
+        </div>
+      </div>
+
+      <div class="card mb20" style="padding:20px">
+        <div class="sec-title">${L('chart_mu')}</div>
+        <div class="chart-wrap">
+          <canvas id="chartMobility" style="height:280px"></canvas>
+        </div>
+      </div>
+
+      <div class="card mb20" style="padding:20px">
+        <div class="sec-title">${L('chart_temp')}</div>
+        <div class="chart-wrap">
+          <canvas id="chartTemperature" style="height:280px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  renderCharts(stResistivity.dopantType);
+}
+
+function setDopant(k) {
+  stResistivity.dopantType = k;
+  goResistivity();
+}
+
+function setSiMode(m) {
+  stResistivity.siMode = m;
+  goResistivity();
+}
+
+function setRhoInputUnit(u) {
+  stResistivity.rhoInputUnit = u;
+  const toggle = document.getElementById('rhoInputUnitToggle');
+  if (toggle) {
+    const map = {ohm_cm:'Ω·cm', ohm_m:'Ω·m'};
+    toggle.querySelectorAll('.unit-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === map[u]);
+    });
+  }
+}
+
+function doCalcConcentration() {
+  try {
+    let rhoInput = parseFloat(stResistivity.rhoInput);
+    if (isNaN(rhoInput) || rhoInput <= 0) throw new Error(L('err_rho'));
+
+    // 转换为 Ω·cm
+    let rho_ohm_cm = stResistivity.rhoInputUnit === 'ohm_m' ? rhoInput / 100 : rhoInput;
+
+    const T = parseFloat(stResistivity.temperature) || 300;
+    if (T < 200 || T > 500) throw new Error(L('err_temp'));
+
+    const dopantType = stResistivity.dopantType;
+    const q = 1.602176634e-19;
+    const isNType = dopantType.startsWith('n');
+
+    // 用二分法反算掺杂浓度 N from ρ = 1/(q·μ(N,T)·N)
+    // ρ·q·μ(N,T)·N = 1 → 需要数值求解
+    let Nlow = 1e12, Nhigh = 1e21;
+    for (let iter = 0; iter < 200; iter++) {
+      let Nmid = Math.sqrt(Nlow * Nhigh);
+      let mu = calcMobilityTemp(Nmid, dopantType, T);
+      let rhoCalc = 1 / (q * mu * Nmid);
+      if (rhoCalc > rho_ohm_cm) {
+        Nhigh = Nmid;
+      } else {
+        Nlow = Nmid;
+      }
+    }
+    const N_cm3 = Math.sqrt(Nlow * Nhigh);
+
+    if (N_cm3 < 1e12 || N_cm3 > 1e21) throw new Error(L('err_rho_range'));
+
+    const result = calcResistivity(dopantType, N_cm3, T);
+    const mobLabel = isNType ? L('mu_n') : L('mu_p');
+    const carrierLabel = isNType ? L('carrier_n') : L('carrier_p');
+
+    // 电阻率单位显示
+    const rhoU = stResistivity.resistivityUnit;
+    const rhoVal = rhoU === 'ohm_m' ? result.rho_ohm_m : result.rho_ohm_cm;
+    const rhoUnitStr = rhoU === 'ohm_m' ? 'Ω·m' : 'Ω·cm';
+
+    let sheetHtml = '';
+    const thickVal = parseFloat(stResistivity.thickness);
+    if (thickVal > 0) {
+      let t_cm;
+      const tu = stResistivity.thicknessUnit;
+      if (tu === 'um') t_cm = thickVal * 1e-4;
+      else if (tu === 'mm') t_cm = thickVal * 0.1;
+      else t_cm = thickVal * 2.54e-4;
+      const Rs = result.rho_ohm_cm / t_cm;
+      sheetHtml = `
+        <div class="res-box orange-border" style="margin-top:12px">
+          <div class="res-label">${L('sheet_r')}</div>
+          <div class="res-value" style="color:#fb923c">${Rs.toExponential(3)}</div>
+          <div class="res-unit">Ω/sq</div>
+        </div>`;
+    }
+
+    document.getElementById('resistivityResult').innerHTML = `
+      <div class="card anim" style="padding:22px">
+        <div class="sec-title">${L('result')}</div>
+        <div class="res-box green-border" style="margin-bottom:12px">
+          <div class="res-label">${L('conc')}</div>
+          <div class="res-value" style="color:#6ee7b7;font-size:22px">${N_cm3.toExponential(3)}</div>
+          <div style="font-size:13px;color:#6ee7b7;font-weight:500">cm⁻³</div>
+        </div>
+        <div class="res-grid">
+          <div class="res-box" style="border-color:rgba(255,255,255,.06)">
+            <div class="res-label">${L('rho')}</div>
+            <div class="res-value" style="color:#e2e8f0;font-size:20px">${rhoVal.toExponential(3)}</div>
+            <div class="rho-unit-toggle">
+              <button class="rho-unit-btn ${rhoU==='ohm_cm'?'active':''}" onclick="switchRhoUnitRev('ohm_cm')">Ω·cm</button>
+              <button class="rho-unit-btn ${rhoU==='ohm_m'?'active':''}" onclick="switchRhoUnitRev('ohm_m')">Ω·m</button>
+            </div>
+          </div>
+          <div class="res-box" style="border-color:rgba(255,255,255,.06)">
+            <div class="res-label">${mobLabel}</div>
+            <div class="res-value" style="color:#e2e8f0;font-size:20px">${result.mobility_cm2_per_Vs.toFixed(1)}</div>
+            <div class="res-unit">cm²/V·s</div>
+          </div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin:14px 0"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px">${L('sigma')}</div>
+            <div style="font-size:16px;font-weight:600;color:#cbd5e1">${result.sigma_S_per_cm.toExponential(3)} S/cm</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px">${L('temp')}</div>
+            <div style="font-size:16px;font-weight:600;color:#cbd5e1">${T} K</div>
+          </div>
+        </div>
+        ${sheetHtml}
+      </div>`;
+
+    stResistivity.concentration = N_cm3.toExponential(3);
+    renderCharts(dopantType);
+  } catch(e) {
+    document.getElementById('resistivityResult').innerHTML = `
+      <div class="err-box anim">${ico.warn} ${e.message}</div>`;
+  }
+}
+
+function switchRhoUnitRev(u) {
+  stResistivity.resistivityUnit = u;
+  doCalcConcentration();
+}
+
+function setThickUnit(u) {
+  stResistivity.thicknessUnit = u;
+  const toggle = document.getElementById('thickUnitToggle');
+  if (toggle) {
+    const map = {um:'μm', mm:'mm', mils:'mils'};
+    toggle.querySelectorAll('.unit-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === map[u]);
+    });
+  }
+}
+
+function doCalcResistivity() {
+  try {
+    let N = parseFloat(stResistivity.concentration);
+    if (isNaN(N) || N <= 0) throw new Error(L('err_conc'));
+    let N_cm3 = N;
+    if (N_cm3 < 1e12 || N_cm3 > 1e21) throw new Error(L('err_range'));
+
+    const T = parseFloat(stResistivity.temperature) || 300;
+    if (T < 200 || T > 500) throw new Error(L('err_temp'));
+
+    const result = calcResistivity(stResistivity.dopantType, N_cm3, T);
+    const isNType = stResistivity.dopantType.startsWith('n');
+    const mobLabel = isNType ? L('mu_n') : L('mu_p');
+    const carrierLabel = isNType ? L('carrier_n') : L('carrier_p');
+
+    // 电阻率单位显示
+    const rhoU = stResistivity.resistivityUnit;
+    const rhoVal = rhoU === 'ohm_m' ? result.rho_ohm_m : result.rho_ohm_cm;
+    const rhoUnitStr = rhoU === 'ohm_m' ? 'Ω·m' : 'Ω·cm';
+
+    let sheetHtml = '';
+    const thickVal = parseFloat(stResistivity.thickness);
+    if (thickVal > 0) {
+      let t_cm;
+      const tu = stResistivity.thicknessUnit;
+      if (tu === 'um') t_cm = thickVal * 1e-4;
+      else if (tu === 'mm') t_cm = thickVal * 0.1;
+      else t_cm = thickVal * 2.54e-4; // mils
+      const Rs = result.rho_ohm_cm / t_cm;
+      sheetHtml = `
+        <div class="res-box orange-border" style="margin-top:12px">
+          <div class="res-label">${L('sheet_r')}</div>
+          <div class="res-value" style="color:#fb923c">${Rs.toExponential(3)}</div>
+          <div class="res-unit">Ω/sq</div>
+        </div>`;
+    }
+
+    document.getElementById('resistivityResult').innerHTML = `
+      <div class="card anim" style="padding:22px">
+        <div class="sec-title">${L('result')}</div>
+        <div class="res-box green-border" style="margin-bottom:12px">
+          <div class="res-label">${L('rho')}</div>
+          <div class="res-value" style="color:#6ee7b7;font-size:22px">${rhoVal.toExponential(3)}</div>
+          <div class="rho-unit-toggle">
+            <button class="rho-unit-btn ${rhoU==='ohm_cm'?'active':''}" onclick="switchRhoUnit('ohm_cm')">Ω·cm</button>
+            <button class="rho-unit-btn ${rhoU==='ohm_m'?'active':''}" onclick="switchRhoUnit('ohm_m')">Ω·m</button>
+          </div>
+        </div>
+        <div class="res-grid">
+          <div class="res-box" style="border-color:rgba(255,255,255,.06)">
+            <div class="res-label">${L('sigma')}</div>
+            <div class="res-value" style="color:#e2e8f0;font-size:20px">${result.sigma_S_per_cm.toExponential(3)}</div>
+            <div class="res-unit">S/cm</div>
+          </div>
+          <div class="res-box" style="border-color:rgba(255,255,255,.06)">
+            <div class="res-label">${mobLabel}</div>
+            <div class="res-value" style="color:#e2e8f0;font-size:20px">${result.mobility_cm2_per_Vs.toFixed(1)}</div>
+            <div class="res-unit">cm²/V·s</div>
+          </div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin:14px 0"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px">${carrierLabel}</div>
+            <div style="font-size:16px;font-weight:600;color:#cbd5e1">${N_cm3.toExponential(3)} cm⁻³</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px">${L('temp')}</div>
+            <div style="font-size:16px;font-weight:600;color:#cbd5e1">${T} K</div>
+          </div>
+        </div>
+        ${sheetHtml}
+      </div>`;
+
+    renderCharts(stResistivity.dopantType);
+  } catch(e) {
+    document.getElementById('resistivityResult').innerHTML = `
+      <div class="err-box anim">${ico.warn} ${e.message}</div>`;
+  }
+}
+
+function switchRhoUnit(u) {
+  stResistivity.resistivityUnit = u;
+  doCalcResistivity();
+}
+
+function renderCharts(dopantType) {
+  const isNType = dopantType.startsWith('n');
+
+  // 生成 ρ vs N 和 μ vs N 曲线数据（300K）
+  const concs = [];
+  for (let i = 12; i <= 21; i += 0.5) {
+    concs.push(Math.pow(10, i));
+  }
+
+  const rhoData = concs.map(N => {
+    const r = calcResistivity(dopantType, N, 300);
+    return { x: N, y: r.rho_ohm_cm };
+  });
+
+  const mobData = concs.map(N => {
+    const mu = calcMobility(N, dopantType);
+    return { x: N, y: mu };
+  });
+
+  // 生成 ρ vs T 曲线数据
+  const T_user = parseFloat(stResistivity.temperature) || 300;
+  let N_cm3 = parseFloat(stResistivity.concentration) || 1e16;
+
+  const tempData = [];
+  for (let t = 200; t <= 500; t += 5) {
+    const r = calcResistivity(dopantType, N_cm3, t);
+    tempData.push({ x: t, y: r.rho_ohm_cm });
+  }
+
+  // 用户输入点
+  const userRho = calcResistivity(dopantType, N_cm3, T_user);
+  const userRhoPoint = [{ x: N_cm3, y: userRho.rho_ohm_cm }];
+  const userMobPoint = [{ x: N_cm3, y: calcMobilityTemp(N_cm3, dopantType, T_user) }];
+  const userTempPoint = [{ x: T_user, y: userRho.rho_ohm_cm }];
+
+  const chartFont = {size:11};
+  const gridColor = 'rgba(255,255,255,0.04)';
+  const tickColor = '#4b5f7c';
+
+  // 电阻率图表
+  const ctx1 = document.getElementById('chartResistivity');
+  if (!ctx1) return;
+  if (resistivityChart) resistivityChart.destroy();
+  resistivityChart = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: L('rho_axis'),
+        data: rhoData,
+        borderColor: '#34d399',
+        backgroundColor: 'rgba(52,211,153,0.08)',
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.1
+      },{
+        label: '●',
+        data: userRhoPoint,
+        borderColor: '#fbbf24',
+        backgroundColor: '#fbbf24',
+        pointRadius: 7,
+        pointStyle: 'circle',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: 'logarithmic',
+          title: { display:true, text:L('conc_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont, callback:v=>v.toExponential(0) },
+          grid: { color:gridColor }
+        },
+        y: {
+          type: 'logarithmic',
+          title: { display:true, text:L('rho_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont, callback:v=>v.toExponential(1) },
+          grid: { color:gridColor }
+        }
+      },
+      plugins: {
+        legend: { labels:{color:'#94a3b8', font:chartFont, filter:item=>item.text!=='●'} },
+        tooltip: {
+          backgroundColor:'rgba(10,17,32,0.95)',titleColor:'#e2e8f0',bodyColor:'#94a3b8',
+          borderColor:'rgba(255,255,255,0.1)',
+          callbacks:{ label:ctx=>`ρ = ${ctx.parsed.y.toExponential(3)} Ω·cm` }
+        }
+      }
+    }
+  });
+
+  // 迁移率图表
+  const ctx2 = document.getElementById('chartMobility');
+  if (!ctx2) return;
+  if (mobilityChart) mobilityChart.destroy();
+  mobilityChart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: L('mu_axis'),
+        data: mobData,
+        borderColor: '#60a5fa',
+        backgroundColor: 'rgba(96,165,250,0.08)',
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.1
+      },{
+        label: '●',
+        data: userMobPoint,
+        borderColor: '#fbbf24',
+        backgroundColor: '#fbbf24',
+        pointRadius: 7,
+        pointStyle: 'circle',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: 'logarithmic',
+          title: { display:true, text:L('conc_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont, callback:v=>v.toExponential(0) },
+          grid: { color:gridColor }
+        },
+        y: {
+          title: { display:true, text:L('mu_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont },
+          grid: { color:gridColor }
+        }
+      },
+      plugins: {
+        legend: { labels:{color:'#94a3b8', font:chartFont, filter:item=>item.text!=='●'} },
+        tooltip: {
+          backgroundColor:'rgba(10,17,32,0.95)',titleColor:'#e2e8f0',bodyColor:'#94a3b8',
+          borderColor:'rgba(255,255,255,0.1)',
+          callbacks:{ label:ctx=>`μ = ${ctx.parsed.y.toFixed(1)} cm²/V·s` }
+        }
+      }
+    }
+  });
+
+  // 温度图表
+  const ctx3 = document.getElementById('chartTemperature');
+  if (!ctx3) return;
+  if (temperatureChart) temperatureChart.destroy();
+  temperatureChart = new Chart(ctx3, {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: L('rho_axis'),
+        data: tempData,
+        borderColor: '#fb923c',
+        backgroundColor: 'rgba(251,146,60,0.08)',
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.1
+      },{
+        label: '●',
+        data: userTempPoint,
+        borderColor: '#fbbf24',
+        backgroundColor: '#fbbf24',
+        pointRadius: 7,
+        pointStyle: 'circle',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: 'linear',
+          title: { display:true, text:L('temp_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont },
+          grid: { color:gridColor },
+          min: 200, max: 500
+        },
+        y: {
+          type: 'logarithmic',
+          title: { display:true, text:L('rho_axis'), color:'#64748b', font:chartFont },
+          ticks: { color:tickColor, font:chartFont, callback:v=>v.toExponential(1) },
+          grid: { color:gridColor }
+        }
+      },
+      plugins: {
+        legend: { labels:{color:'#94a3b8', font:chartFont, filter:item=>item.text!=='●'} },
+        tooltip: {
+          backgroundColor:'rgba(10,17,32,0.95)',titleColor:'#e2e8f0',bodyColor:'#94a3b8',
+          borderColor:'rgba(255,255,255,0.1)',
+          callbacks:{ label:ctx=>`ρ = ${ctx.parsed.y.toExponential(3)} Ω·cm @ ${ctx.parsed.x} K` }
+        }
+      }
+    }
+  });
+}
+
+// ===================== Wafer Die Calculator =====================
+const WAFER_DIAMETERS = {'4':100,'5':125,'6':150,'8':200,'12':300};
+
+function setWaferMode(m){
+  stWafer.waferMode = m;
+  goWafer();
+}
+function setDieUnit(u){
+  stWafer.dieUnit = u;
+  goWafer();
+}
+
+function goWafer(){
+  mode='wafer';
+  const sizes = ['4','5','6','8','12'];
+  const sizeLabels = {4:L('w_4in'),5:L('w_5in'),6:L('w_6in'),8:L('w_8in'),12:L('w_12in')};
+  const du = stWafer.dieUnit || 'mm';
+  const isCompare = stWafer.waferMode === 'compare';
+
+  app.innerHTML=`
+  <div class="page-bg">
+    <div class="page-inner anim" style="max-width:860px">
+      <div class="top-nav mb24">
+        <button class="btn-back" onclick="goHome()">${ico.back} ${L('back')}</button>
+        <div class="nav-title-wrap">
+          <div class="nav-title">${L('w_t')}</div>
+          <div class="nav-sub">${L('w_sub')}</div>
+        </div>
+      </div>
+
+      <div class="card mb20" style="padding:22px">
+        <!-- Mode toggle -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <div class="unit-toggle">
+            <button class="unit-btn ${!isCompare?'active':''}" onclick="setWaferMode('single')">${L('w_mode_single')}</button>
+            <button class="unit-btn ${isCompare?'active':''}" onclick="setWaferMode('compare')">${L('w_mode_compare')}</button>
+          </div>
+          ${isCompare?`<span style="font-size:11px;color:#94a3b8">${L('w_compare_note')}</span>`:''}
+        </div>
+
+        <!-- Unit toggle (global) -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div class="unit-toggle">
+            <button class="unit-btn ${du==='mm'?'active':''}" onclick="setDieUnit('mm')">mm</button>
+            <button class="unit-btn ${du==='um'?'active':''}" onclick="setDieUnit('um')">μm</button>
+          </div>
+          <span style="font-size:11px;color:#4b5f7c">${L('w_die_unit')}</span>
+        </div>
+
+        ${isCompare?`
+        <!-- Compare mode: side-by-side A | B with all params -->
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-bottom:16px">
+          <!-- Set A -->
+          <div style="padding:16px;border-radius:10px;background:rgba(168,85,247,.04);border:1px solid rgba(168,85,247,.12)">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px">
+              <div style="width:8px;height:8px;border-radius:50%;background:#c084fc"></div>
+              <span style="font-size:13px;font-weight:600;color:#c084fc">${L('w_set_a')}</span>
+              <span style="font-size:10px;color:#64748b">${L('w_die_note')}</span>
+            </div>
+            <div style="margin-bottom:10px">
+              <span class="lbl">${L('w_wafer')}</span>
+              <select class="inp" style="cursor:pointer" onchange="stWafer.waferSize=this.value">
+                ${sizes.map(s=>`<option value="${s}" ${stWafer.waferSize===s?'selected':''}>${sizeLabels[s]}</option>`).join('')}
+              </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+              <div>
+                <span class="lbl">${L('w_die_x')} (${du})</span>
+                <input class="inp" type="number" step="0.01" min="0.01" id="inpDieX" value="${stWafer.dieX}"
+                       oninput="stWafer.dieX=this.value" placeholder="3.25"/>
+              </div>
+              <div>
+                <span class="lbl">${L('w_die_y')} (${du})</span>
+                <input class="inp" type="number" step="0.01" min="0.01" id="inpDieY" value="${stWafer.dieY}"
+                       oninput="stWafer.dieY=this.value" placeholder="3.25"/>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+              <div>
+                <span class="lbl">${L('w_saw')} (mm)</span>
+                <input class="inp" type="number" step="0.01" min="0" id="inpSaw" value="${stWafer.sawStreet}"
+                       oninput="stWafer.sawStreet=this.value" placeholder="0.06"/>
+              </div>
+              <div>
+                <span class="lbl">${L('w_edge')} (mm)</span>
+                <input class="inp" type="number" step="0.5" min="0" id="inpEdge" value="${stWafer.edgeExclusion}"
+                       oninput="stWafer.edgeExclusion=this.value" placeholder="3"/>
+              </div>
+            </div>
+            <div>
+              <span class="lbl">${L('w_yield')}</span>
+              <input class="inp" type="number" step="1" min="0" max="100" id="inpYield" value="${stWafer.yieldPct}"
+                     oninput="stWafer.yieldPct=this.value" placeholder="100"/>
+            </div>
+          </div>
+          <!-- Divider -->
+          <div style="display:flex;align-items:center;justify-content:center;padding:0 6px">
+            <div style="width:1px;height:80%;background:rgba(255,255,255,.08);border-radius:1px"></div>
+          </div>
+          <!-- Set B -->
+          <div style="position:relative;padding:16px;border-radius:10px;background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.12)">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px">
+              <div style="width:8px;height:8px;border-radius:50%;background:#60a5fa"></div>
+              <span style="font-size:13px;font-weight:600;color:#60a5fa">${L('w_set_b')}</span>
+              <span style="font-size:10px;color:#64748b">${L('w_die_note')}</span>
+            </div>
+            <div style="position:absolute;top:8px;right:8px;z-index:2">
+              <button class="btn-calc-purple" style="font-size:11px;padding:3px 8px;opacity:.85;hover:opacity:1" onclick="copyWaferA2B()">${L('w_copy_a')}</button>
+            </div>
+            <div style="margin-bottom:10px">
+              <span class="lbl">${L('w_wafer')}</span>
+              <select class="inp" style="cursor:pointer;border-color:rgba(59,130,246,.2)" onchange="stWafer.waferSize2=this.value">
+                ${sizes.map(s=>`<option value="${s}" ${stWafer.waferSize2===s?'selected':''}>${sizeLabels[s]}</option>`).join('')}
+              </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+              <div>
+                <span class="lbl">${L('w_die_x')} (${du})</span>
+                <input class="inp" type="number" step="0.01" min="0.01" id="inpDieX2" value="${stWafer.dieX2}"
+                       oninput="stWafer.dieX2=this.value" placeholder="2.80" style="border-color:rgba(59,130,246,.2)"/>
+              </div>
+              <div>
+                <span class="lbl">${L('w_die_y')} (${du})</span>
+                <input class="inp" type="number" step="0.01" min="0.01" id="inpDieY2" value="${stWafer.dieY2}"
+                       oninput="stWafer.dieY2=this.value" placeholder="2.80" style="border-color:rgba(59,130,246,.2)"/>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+              <div>
+                <span class="lbl">${L('w_saw')} (mm)</span>
+                <input class="inp" type="number" step="0.01" min="0" id="inpSaw2" value="${stWafer.sawStreet2}"
+                       oninput="stWafer.sawStreet2=this.value" placeholder="0.06" style="border-color:rgba(59,130,246,.2)"/>
+              </div>
+              <div>
+                <span class="lbl">${L('w_edge')} (mm)</span>
+                <input class="inp" type="number" step="0.5" min="0" id="inpEdge2" value="${stWafer.edgeExclusion2}"
+                       oninput="stWafer.edgeExclusion2=this.value" placeholder="3" style="border-color:rgba(59,130,246,.2)"/>
+              </div>
+            </div>
+            <div>
+              <span class="lbl">${L('w_yield')}</span>
+              <input class="inp" type="number" step="1" min="0" max="100" id="inpYield2" value="${stWafer.yieldPct2}"
+                     oninput="stWafer.yieldPct2=this.value" placeholder="100" style="border-color:rgba(59,130,246,.2)"/>
+            </div>
+          </div>
+        </div>
+        `:`
+        <!-- Single mode -->
+        <div class="sec-title">${L('w_wafer')}</div>
+        <div style="margin-bottom:16px">
+          <select class="inp" style="cursor:pointer" id="selWaferSize" onchange="stWafer.waferSize=this.value">
+            ${sizes.map(s=>`<option value="${s}" ${stWafer.waferSize===s?'selected':''}>${sizeLabels[s]}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="sec-title">${L('w_die')} <span style="font-size:11px;color:#64748b;font-weight:400">${L('w_die_note')}</span></div>
+        <div class="row2 mb16">
+          <div>
+            <span class="lbl">${L('w_die_x')} (${du})</span>
+            <input class="inp" type="number" step="0.01" min="0.01" id="inpDieX" value="${stWafer.dieX}"
+                   oninput="stWafer.dieX=this.value" placeholder="3.25"/>
+          </div>
+          <div>
+            <span class="lbl">${L('w_die_y')} (${du})</span>
+            <input class="inp" type="number" step="0.01" min="0.01" id="inpDieY" value="${stWafer.dieY}"
+                   oninput="stWafer.dieY=this.value" placeholder="3.25"/>
+          </div>
+        </div>
+        <div class="row2 mb16">
+          <div>
+            <span class="lbl">${L('w_saw')} (mm)</span>
+            <input class="inp" type="number" step="0.01" min="0" id="inpSaw" value="${stWafer.sawStreet}"
+                   oninput="stWafer.sawStreet=this.value" placeholder="0.06"/>
+          </div>
+          <div>
+            <span class="lbl">${L('w_edge')} (mm)</span>
+            <input class="inp" type="number" step="0.5" min="0" id="inpEdge" value="${stWafer.edgeExclusion}"
+                   oninput="stWafer.edgeExclusion=this.value" placeholder="3"/>
+          </div>
+        </div>
+        <div class="row2 mb20">
+          <div>
+            <span class="lbl">${L('w_yield')}</span>
+            <input class="inp" type="number" step="1" min="0" max="100" id="inpYield" value="${stWafer.yieldPct}"
+                   oninput="stWafer.yieldPct=this.value" placeholder="100"/>
+          </div>
+          <div></div>
+        </div>
+        `}
+
+        <button class="btn-calc-blue" onclick="doCalcWafer()">${L('w_calc')}</button>
+      </div>
+
+      <div id="waferResult"></div>
+    </div>
+  </div>`;
+}
+
+// Core calculation function - returns result object
+function calcWaferCore(D, dieXmm, dieYmm, S, E, Y){
+  const Deff = D - 2 * E;
+  if(Deff <= 0) return null;
+  const Xeff = dieXmm + S;
+  const Yeff = dieYmm + S;
+  const R = Deff / 2;
+  const cols = Math.ceil(Deff / Xeff);
+  const rows = Math.ceil(Deff / Yeff);
+  let grossDie = 0;
+  const diePositions = [];
+  const startX = -(cols * Xeff) / 2;
+  const startY = -(rows * Yeff) / 2;
+  for(let r = 0; r < rows; r++){
+    for(let c = 0; c < cols; c++){
+      const cx = startX + c * Xeff + Xeff / 2;
+      const cy = startY + r * Yeff + Yeff / 2;
+      const inside = (cx * cx + cy * cy) <= (R * R);
+      if(inside) grossDie++;
+      const inWafer = Math.sqrt(cx * cx + cy * cy) <= (D / 2);
+      if(inWafer) diePositions.push({cx, cy, inside});
+    }
+  }
+  const netDie = Math.round(grossDie * Y / 100);
+  const dieArea = dieXmm * dieYmm;
+  const waferArea = Math.PI * R * R;
+  const utilization = (grossDie * dieArea / waferArea) * 100;
+  return {Deff, grossDie, netDie, utilization, diePositions, dieXmm, dieYmm};
+}
+
+function copyWaferA2B(){
+  ['waferSize','dieX','dieY','sawStreet','edgeExclusion','yieldPct'].forEach(k=> stWafer[k+'2']=stWafer[k]);
+  setWaferMode(stWafer.waferMode);
+}
+
+function doCalcWafer(){
+  const du = stWafer.dieUnit || 'mm';
+  const isCompare = stWafer.waferMode === 'compare';
+
+  // Set A params
+  const DA = WAFER_DIAMETERS[stWafer.waferSize] || 150;
+  let dieX = parseFloat(stWafer.dieX) || 0;
+  let dieY = parseFloat(stWafer.dieY) || 0;
+  if(du === 'um'){ dieX /= 1000; dieY /= 1000; }
+  const SA = parseFloat(stWafer.sawStreet) || 0;
+  const EA = parseFloat(stWafer.edgeExclusion) || 0;
+  let YA = parseFloat(stWafer.yieldPct);
+  if(isNaN(YA) || YA < 0) YA = 0;
+  if(YA > 100) YA = 100;
+
+  if(dieX <= 0 || dieY <= 0){
+    document.getElementById('waferResult').innerHTML=`<div class="err-box">${ico.warn} ${L('w_err_die')}</div>`;
+    return;
+  }
+  if(SA < 0){
+    document.getElementById('waferResult').innerHTML=`<div class="err-box">${ico.warn} ${L('w_err_saw')}</div>`;
+    return;
+  }
+
+  const resA = calcWaferCore(DA, dieX, dieY, SA, EA, YA);
+  if(!resA){
+    document.getElementById('waferResult').innerHTML=`<div class="err-box">Edge exclusion too large</div>`;
+    return;
+  }
+
+  let resB = null;
+  let DB = DA, SB = SA, EB = EA, YB = YA;
+  if(isCompare){
+    DB = WAFER_DIAMETERS[stWafer.waferSize2] || 150;
+    let dieX2 = parseFloat(stWafer.dieX2) || 0;
+    let dieY2 = parseFloat(stWafer.dieY2) || 0;
+    if(du === 'um'){ dieX2 /= 1000; dieY2 /= 1000; }
+    SB = parseFloat(stWafer.sawStreet2) || 0;
+    EB = parseFloat(stWafer.edgeExclusion2) || 0;
+    YB = parseFloat(stWafer.yieldPct2);
+    if(isNaN(YB) || YB < 0) YB = 0;
+    if(YB > 100) YB = 100;
+    if(dieX2 > 0 && dieY2 > 0){
+      resB = calcWaferCore(DB, dieX2, dieY2, SB, EB, YB);
+    }
+  }
+
+  // Build result HTML - numbers on top, canvas below
+  let html = '';
+
+  if(isCompare && resB){
+    // === COMPARE MODE ===
+    // Calculate deltas with change rate
+    const dGross = resB.grossDie - resA.grossDie;
+    const dNet = resB.netDie - resA.netDie;
+    const dUtil = resB.utilization - resA.utilization;
+    const grossPct = resA.grossDie !== 0 ? (dGross / resA.grossDie * 100) : 0;
+    const netPct = resA.netDie !== 0 ? (dNet / resA.netDie * 100) : 0;
+
+    // Two separate result cards side by side
+    html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="mb20">
+      <!-- Set A Result Card -->
+      <div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(30,30,46,.85));border:1px solid rgba(139,92,246,.18)">
+        <div style="text-align:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700;color:#c084fc;letter-spacing:1px">${L('w_set_a')}</span>
+          <span style="font-size:11px;color:#94a3b8;margin-left:6px">${resA.dieXmm.toFixed(2)} × ${resA.dieYmm.toFixed(2)} mm</span>
+        </div>
+        <div class="wafer-result-grid" style="grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div class="wafer-result-box purple-glow">
+            <div class="res-label" style="font-size:11px">${L('w_gross')}</div>
+            <div class="res-val" style="color:#c084fc;font-size:22px">${resA.grossDie.toLocaleString()}</div>
+          </div>
+          <div class="wafer-result-box green-glow">
+            <div class="res-label" style="font-size:11px">${L('w_net')}</div>
+            <div class="res-val" style="color:#34d399;font-size:22px">${resA.netDie.toLocaleString()}</div>
+          </div>
+          <div class="wafer-result-box blue-glow">
+            <div class="res-label" style="font-size:11px">${L('w_util')}</div>
+            <div class="res-val" style="color:#60a5fa;font-size:22px">${resA.utilization.toFixed(1)}%</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:#94a3b8">
+          <div class="detail-row"><span class="dk">${L('w_diam')}</span><span class="dv">${DA} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_eff_diam')}</span><span class="dv">${resA.Deff.toFixed(1)} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_die_size')}</span><span class="dv">${resA.dieXmm.toFixed(2)} × ${resA.dieYmm.toFixed(2)} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_saw_w')}</span><span class="dv">${SA} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_yield')}</span><span class="dv">${YA} %</span></div>
+        </div>
+      </div>
+      <!-- Set B Result Card -->
+      <div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(30,30,46,.85));border:1px solid rgba(59,130,246,.18)">
+        <div style="text-align:center;margin-bottom:12px">
+          <span style="font-size:14px;font-weight:700;color:#60a5fa;letter-spacing:1px">${L('w_set_b')}</span>
+          <span style="font-size:11px;color:#94a3b8;margin-left:6px">${resB.dieXmm.toFixed(2)} × ${resB.dieYmm.toFixed(2)} mm</span>
+        </div>
+        <div class="wafer-result-grid" style="grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div class="wafer-result-box purple-glow">
+            <div class="res-label" style="font-size:11px">${L('w_gross')}</div>
+            <div class="res-val" style="color:#c084fc;font-size:22px">${resB.grossDie.toLocaleString()}</div>
+          </div>
+          <div class="wafer-result-box green-glow">
+            <div class="res-label" style="font-size:11px">${L('w_net')}</div>
+            <div class="res-val" style="color:#34d399;font-size:22px">${resB.netDie.toLocaleString()}</div>
+          </div>
+          <div class="wafer-result-box blue-glow">
+            <div class="res-label" style="font-size:11px">${L('w_util')}</div>
+            <div class="res-val" style="color:#60a5fa;font-size:22px">${resB.utilization.toFixed(1)}%</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:#94a3b8">
+          <div class="detail-row"><span class="dk">${L('w_diam')}</span><span class="dv">${DB} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_eff_diam')}</span><span class="dv">${resB.Deff.toFixed(1)} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_die_size')}</span><span class="dv">${resB.dieXmm.toFixed(2)} × ${resB.dieYmm.toFixed(2)} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_saw_w')}</span><span class="dv">${SB} mm</span></div>
+          <div class="detail-row"><span class="dk">${L('w_yield')}</span><span class="dv">${YB} %</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Delta row with change rate -->
+    <div class="card mb20" style="padding:12px 18px;background:rgba(250,204,21,.04);border:1px solid rgba(250,204,21,.12);border-radius:10px;display:flex;justify-content:space-around;font-size:12px;flex-wrap:wrap;gap:8px">
+      <div><span style="color:#64748b">${L('w_gross')} Δ</span> <span style="color:${dGross>=0?'#34d399':'#f87171'};font-weight:600">${dGross>=0?'+':''}${dGross.toLocaleString()}</span> <span style="color:${dGross>=0?'#34d399':'#f87171'};font-size:11px">(${dGross>=0?'+':''}${grossPct.toFixed(1)}%)</span></div>
+      <div><span style="color:#64748b">${L('w_net')} Δ</span> <span style="color:${dNet>=0?'#34d399':'#f87171'};font-weight:600">${dNet>=0?'+':''}${dNet.toLocaleString()}</span> <span style="color:${dNet>=0?'#34d399':'#f87171'};font-size:11px">(${dNet>=0?'+':''}${netPct.toFixed(1)}%)</span></div>
+      <div><span style="color:#64748b">${L('w_util')} Δ</span> <span style="color:${dUtil>=0?'#34d399':'#f87171'};font-weight:600">${dUtil>=0?'+':''}${dUtil.toFixed(1)}%</span></div>
+    </div>`;
+
+    // Dual canvas
+    html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card" style="padding:16px">
+        <div style="text-align:center;font-size:12px;color:#c084fc;margin-bottom:8px">${L('w_set_a')}</div>
+        <div class="wafer-canvas-wrap" style="padding:8px">
+          <canvas id="waferCanvasA" width="400" height="400"></canvas>
+        </div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="text-align:center;font-size:12px;color:#60a5fa;margin-bottom:8px">${L('w_set_b')}</div>
+        <div class="wafer-canvas-wrap" style="padding:8px">
+          <canvas id="waferCanvasB" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="wafer-legend" style="margin-top:8px">
+      <div class="wafer-legend-item"><div class="wafer-legend-dot" style="background:rgba(139,92,246,.5)"></div>${L('w_legend_in')}</div>
+      <div class="wafer-legend-item"><div class="wafer-legend-dot" style="background:rgba(100,116,139,.2)"></div>${L('w_legend_out')}</div>
+    </div>`;
+
+    document.getElementById('waferResult').innerHTML = html;
+    drawWafer('waferCanvasA', DA, resA.Deff, resA.dieXmm, resA.dieYmm, SA, resA.diePositions);
+    drawWafer('waferCanvasB', DB, resB.Deff, resB.dieXmm, resB.dieYmm, SB, resB.diePositions);
+
+  } else {
+    // === SINGLE MODE ===
+    html += `
+    <div class="card mb20" style="padding:22px">
+      <div class="wafer-result-grid">
+        <div class="wafer-result-box purple-glow">
+          <div class="res-label">${L('w_gross')}</div>
+          <div class="res-val" style="color:#c084fc">${resA.grossDie.toLocaleString()}</div>
+        </div>
+        <div class="wafer-result-box green-glow">
+          <div class="res-label">${L('w_net')}</div>
+          <div class="res-val" style="color:#34d399">${resA.netDie.toLocaleString()}</div>
+        </div>
+        <div class="wafer-result-box blue-glow">
+          <div class="res-label">${L('w_util')}</div>
+          <div class="res-val" style="color:#60a5fa">${resA.utilization.toFixed(1)}%</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="detail-row"><span class="dk">${L('w_diam')}</span><span class="dv">${DA} mm</span></div>
+      <div class="detail-row"><span class="dk">${L('w_eff_diam')}</span><span class="dv">${resA.Deff.toFixed(1)} mm</span></div>
+      <div class="detail-row"><span class="dk">${L('w_die_size')}</span><span class="dv">${resA.dieXmm.toFixed(2)} × ${resA.dieYmm.toFixed(2)} mm</span></div>
+      <div class="detail-row"><span class="dk">${L('w_saw_w')}</span><span class="dv">${SA} mm</span></div>
+      <div class="detail-row"><span class="dk">${L('w_yield')}</span><span class="dv">${YA} %</span></div>
+    </div>
+
+    <div class="card mb20" style="padding:22px">
+      <div class="wafer-canvas-wrap">
+        <canvas id="waferCanvas" width="500" height="500"></canvas>
+      </div>
+      <div class="wafer-legend">
+        <div class="wafer-legend-item"><div class="wafer-legend-dot" style="background:rgba(139,92,246,.5)"></div>${L('w_legend_in')}</div>
+        <div class="wafer-legend-item"><div class="wafer-legend-dot" style="background:rgba(100,116,139,.2)"></div>${L('w_legend_out')}</div>
+      </div>
+    </div>`;
+
+    document.getElementById('waferResult').innerHTML = html;
+    drawWafer('waferCanvas', DA, resA.Deff, resA.dieXmm, resA.dieYmm, SA, resA.diePositions);
+  }
+}
+
+function drawWafer(canvasId, D, Deff, dieX, dieY, S, diePositions){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const cx = W / 2;
+  const cy = H / 2;
+
+  // Scale: fit wafer with margin
+  const margin = 30;
+  const scale = (Math.min(W, H) - 2 * margin) / D;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw full wafer circle (background)
+  ctx.beginPath();
+  ctx.arc(cx, cy, (D / 2) * scale, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(30,41,59,0.6)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(100,116,139,0.3)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Draw edge exclusion ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, (Deff / 2) * scale, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(168,85,247,0.25)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw dies
+  const Xeff = dieX + S;
+  const Yeff = dieY + S;
+  const dieW = dieX * scale;
+  const dieH = dieY * scale;
+  const gap = S * scale;
+
+  for(let i = 0; i < diePositions.length; i++){
+    const d = diePositions[i];
+    const px = cx + d.cx * scale - dieW / 2;
+    const py = cy + d.cy * scale - dieH / 2;
+
+    // Skip very tiny dies (performance)
+    if(dieW < 0.8) {
+      // Draw as pixels for very small dies
+      ctx.fillStyle = d.inside ? 'rgba(139,92,246,0.5)' : 'rgba(100,116,139,0.15)';
+      ctx.fillRect(Math.round(px), Math.round(py), Math.max(1, Math.round(dieW)), Math.max(1, Math.round(dieH)));
+    } else {
+      ctx.fillStyle = d.inside ? 'rgba(139,92,246,0.45)' : 'rgba(100,116,139,0.12)';
+      ctx.fillRect(px + gap / 2, py + gap / 2, dieW - gap, dieH - gap);
+
+      if(d.inside && dieW > 2){
+        ctx.strokeStyle = 'rgba(139,92,246,0.25)';
+        ctx.lineWidth = 0.3;
+        ctx.strokeRect(px + gap / 2, py + gap / 2, dieW - gap, dieH - gap);
+      }
+    }
+  }
+
+  // Re-draw effective circle on top for clarity
+  ctx.beginPath();
+  ctx.arc(cx, cy, (Deff / 2) * scale, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(168,85,247,0.35)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Wafer notch/flat indicator
+  const notchY = cy + (D / 2) * scale;
+  ctx.beginPath();
+  ctx.moveTo(cx - 6, notchY);
+  ctx.lineTo(cx + 6, notchY);
+  ctx.lineTo(cx, notchY - 4);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(100,116,139,0.5)';
+  ctx.fill();
+}
+
 // 点击外部关闭下拉框
 document.addEventListener('click',function(e){
   if(!e.target.closest('.dd-wrap')){
     document.querySelectorAll('.dd-menu').forEach(el=>el.style.display='none');
+  }
+  if(!e.target.closest('.lang-wrap')){
+    const m=document.getElementById('langMenu');
+    if(m) m.classList.remove('show');
   }
 });
 
